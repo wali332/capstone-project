@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-brand-base text-white font-sans antialiased m-0 p-0 overflow-x-hidden;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
