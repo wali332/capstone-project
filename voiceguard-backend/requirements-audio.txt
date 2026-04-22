@@ -1,0 +1,11 @@
+# VoiceGuard — Audio processing requirements
+# Install with: pip install -r requirements-audio.txt
+# Works on Python 3.12 and 3.13 — no compiler needed
+
+librosa==0.10.2
+soundfile==0.12.1
+numpy>=2.0
+Pillow>=10.0
+matplotlib>=3.8
+tqdm>=4.66
+soxr>=0.3.7
