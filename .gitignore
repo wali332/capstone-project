@@ -12,6 +12,20 @@ dist
 dist-ssr
 *.local
 
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pkl
+
+# Archives
+*.zip
+
+# Large generated spectrograms (regenerate with scripts/preprocess.py)
+voiceguard-backend/data/spectrograms/*.npz
+!voiceguard-backend/data/spectrograms/smoke/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

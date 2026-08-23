@@ -1,0 +1,72 @@
+VoiceGuard Attack-Wise Error Analysis
+=======================================================
+Model     : C:\Users\walia\Desktop\capstone\voiceguard-backend\models\voiceguard_model.h5
+Test data : C:\Users\walia\Desktop\capstone\voiceguard-backend\data\spectrograms\test.npz
+Scope     : spoof samples only (y=1)
+
+Per-Attack Results
+-------------------------------------------------------
+A01:
+  Samples                 : 68
+  Correctly detected spoofs : 66
+  Spoof -> bonafide errors : 2
+  Attack-specific recall    : 0.9706 (97.06%)
+  Attack-specific error rate: 0.0294 (2.94%)
+
+A02:
+  Samples                 : 70
+  Correctly detected spoofs : 68
+  Spoof -> bonafide errors : 2
+  Attack-specific recall    : 0.9714 (97.14%)
+  Attack-specific error rate: 0.0286 (2.86%)
+
+A03:
+  Samples                 : 73
+  Correctly detected spoofs : 69
+  Spoof -> bonafide errors : 4
+  Attack-specific recall    : 0.9452 (94.52%)
+  Attack-specific error rate: 0.0548 (5.48%)
+
+A04:
+  Samples                 : 74
+  Correctly detected spoofs : 74
+  Spoof -> bonafide errors : 0
+  Attack-specific recall    : 1.0000 (100.00%)
+  Attack-specific error rate: 0.0000 (0.00%)
+
+A05:
+  Samples                 : 80
+  Correctly detected spoofs : 80
+  Spoof -> bonafide errors : 0
+  Attack-specific recall    : 1.0000 (100.00%)
+  Attack-specific error rate: 0.0000 (0.00%)
+
+A06:
+  Samples                 : 65
+  Correctly detected spoofs : 65
+  Spoof -> bonafide errors : 0
+  Attack-specific recall    : 1.0000 (100.00%)
+  Attack-specific error rate: 0.0000 (0.00%)
+
+A07:
+  Samples                 : 70
+  Correctly detected spoofs : 70
+  Spoof -> bonafide errors : 0
+  Attack-specific recall    : 1.0000 (100.00%)
+  Attack-specific error rate: 0.0000 (0.00%)
+
+A08:
+  Samples                 : 70
+  Correctly detected spoofs : 39
+  Spoof -> bonafide errors : 31
+  Attack-specific recall    : 0.5571 (55.71%)
+  Attack-specific error rate: 0.4429 (44.29%)
+
+Key Findings
+-------------------------------------------------------
+1. Worst spoof recall        : A08 (55.71%)
+2. Most false negatives      : A08 (31 errors)
+3. Easiest attacks (highest recall): A04, A05, A06, A07 (100.00%)
+4. Total spoof false negatives   : 39 / 570 (6.84%)
+
+Chart saved to: C:\Users\walia\Desktop\capstone\voiceguard-backend\models\attack_wise_evaluation.png

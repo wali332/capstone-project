@@ -31,7 +31,7 @@ export default function Trust() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.15 }}
             >
-              <span className="font-mono text-[13px] text-brand-violet tracking-wide md:w-1/3 mb-2 md:mb-0">
+              <span className="font-mono text-[13px] text-brand-accent tracking-wide md:w-1/3 mb-2 md:mb-0">
                 {stat.label}
               </span>
               <span className="font-sans text-[14px] text-gray-400 md:w-2/3 md:text-right">
@@ -50,7 +50,7 @@ export default function Trust() {
         >
           <div className="bg-brand-base border border-brand-border rounded-[8px] p-8 relative overflow-hidden">
             {/* Subtle glow */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-violet to-transparent opacity-50" />
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-accent to-transparent opacity-50" />
             
             <div className="font-mono text-[13px] text-gray-400 leading-relaxed italic">
               <span className="text-gray-600 mr-2">//</span>

@@ -13,7 +13,7 @@ export default function Technology() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="font-mono text-[11px] text-brand-violet uppercase tracking-widest mb-4">
+          <span className="font-mono text-[11px] text-brand-accent uppercase tracking-widest mb-4">
             Under the hood
           </span>
           <h2 className="font-sans font-bold text-[32px] text-white mb-6">
@@ -43,24 +43,24 @@ export default function Technology() {
         >
           <svg viewBox="0 0 550 200" className="w-full h-full max-w-[450px]">
              {/* Base Lines */}
-             <line x1="80" y1="100" x2="480" y2="100" stroke="#2A2A30" strokeWidth="2" strokeDasharray="4 4" />
+             <line x1="80" y1="100" x2="480" y2="100" stroke="#1E293B" strokeWidth="2" strokeDasharray="4 4" />
              
              {/* Input Layer */}
-             <rect x="40" y="70" width="40" height="60" rx="4" fill="#0D0D0F" stroke="#2A2A30" strokeWidth="2" />
+             <rect x="40" y="70" width="40" height="60" rx="4" fill="#0A0F18" stroke="#1E293B" strokeWidth="2" />
              <text x="60" y="145" fontSize="8" fill="#6c757d" textAnchor="middle" fontFamily="monospace">INPUT</text>
 
              {/* Conv Layers block visual */}
              <g transform="translate(130, 0)">
                {[0, 1, 2].map((i) => (
                  <g key={i}>
-                   <rect x={i * 35} y={60 + i*5} width="20" height={80 - i*10} rx="2" fill="#0D0D0F" stroke="#2A2A30" strokeWidth="2" />
+                   <rect x={i * 35} y={60 + i*5} width="20" height={80 - i*10} rx="2" fill="#0A0F18" stroke="#1E293B" strokeWidth="2" />
                    {/* Animated Glow overlay */}
                    <motion.rect 
-                     x={i * 35} y={60 + i*5} width="20" height={80 - i*10} rx="2" fill="none" stroke="#6C63FF" strokeWidth="2"
+                     x={i * 35} y={60 + i*5} width="20" height={80 - i*10} rx="2" fill="none" stroke="#22D3EE" strokeWidth="2"
                      initial={{ opacity: 0 }}
                      animate={{ opacity: [0, 1, 1, 0] }}
                      transition={{ duration: 2, repeat: Infinity, times: [0, 0.2, 0.4, 1], delay: 0.3 * (i+1) }}
-                     style={{ filter: "drop-shadow(0 0 8px #6C63FF)" }}
+                     style={{ filter: "drop-shadow(0 0 8px #22D3EE)" }}
                    />
                  </g>
                ))}
@@ -69,39 +69,39 @@ export default function Technology() {
 
              {/* Dense / Flatten Layer */}
              <g transform="translate(290, 0)">
-               <rect x="0" y="80" width="30" height="40" rx="2" fill="#0D0D0F" stroke="#2A2A30" strokeWidth="2" />
+               <rect x="0" y="80" width="30" height="40" rx="2" fill="#0A0F18" stroke="#1E293B" strokeWidth="2" />
                <motion.rect 
-                 x="0" y="80" width="30" height="40" rx="2" fill="none" stroke="#6C63FF" strokeWidth="2"
+                 x="0" y="80" width="30" height="40" rx="2" fill="none" stroke="#22D3EE" strokeWidth="2"
                  initial={{ opacity: 0 }}
                  animate={{ opacity: [0, 1, 1, 0] }}
                  transition={{ duration: 2, repeat: Infinity, times: [0, 0.2, 0.4, 1], delay: 1.0 }}
-                 style={{ filter: "drop-shadow(0 0 8px #6C63FF)" }}
+                 style={{ filter: "drop-shadow(0 0 8px #22D3EE)" }}
                />
                <text x="15" y="145" fontSize="8" fill="#6c757d" textAnchor="middle" fontFamily="monospace">CONV2D → FLATTEN</text>
              </g>
 
              {/* Dense Layer */}
              <g transform="translate(400, 0)">
-               <rect x="0" y="90" width="20" height="20" rx="2" fill="#0D0D0F" stroke="#2A2A30" strokeWidth="2" />
+               <rect x="0" y="90" width="20" height="20" rx="2" fill="#0A0F18" stroke="#1E293B" strokeWidth="2" />
                <motion.rect 
-                 x="0" y="90" width="20" height="20" rx="2" fill="none" stroke="#6C63FF" strokeWidth="2"
+                 x="0" y="90" width="20" height="20" rx="2" fill="none" stroke="#22D3EE" strokeWidth="2"
                  initial={{ opacity: 0 }}
                  animate={{ opacity: [0, 1, 1, 0] }}
                  transition={{ duration: 2, repeat: Infinity, times: [0, 0.2, 0.4, 1], delay: 1.3 }}
-                 style={{ filter: "drop-shadow(0 0 8px #6C63FF)" }}
+                 style={{ filter: "drop-shadow(0 0 8px #22D3EE)" }}
                />
                <text x="10" y="130" fontSize="8" fill="#6c757d" textAnchor="middle" fontFamily="monospace">DENSE</text>
              </g>
 
              {/* Output Node */}
              <g transform="translate(480, 0)">
-               <circle cx="10" cy="100" r="10" fill="#0D0D0F" stroke="#2A2A30" strokeWidth="2" />
+               <circle cx="10" cy="100" r="10" fill="#0A0F18" stroke="#1E293B" strokeWidth="2" />
                <motion.circle 
-                 cx="10" cy="100" r="10" fill="none" stroke="#6C63FF" strokeWidth="2"
+                 cx="10" cy="100" r="10" fill="none" stroke="#22D3EE" strokeWidth="2"
                  initial={{ opacity: 0 }}
                  animate={{ opacity: [0, 1, 1, 0] }}
                  transition={{ duration: 2, repeat: Infinity, times: [0, 0.2, 0.4, 1], delay: 1.6 }}
-                 style={{ filter: "drop-shadow(0 0 8px #6C63FF)" }}
+                 style={{ filter: "drop-shadow(0 0 8px #22D3EE)" }}
                />
                <text x="10" y="125" fontSize="8" fill="#6c757d" textAnchor="middle" fontFamily="monospace">SOFTMAX</text>
              </g>

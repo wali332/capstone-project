@@ -1,0 +1,123 @@
+VoiceGuard CNN V2 - Validation Set Evaluation Report
+==============================================================
+Model         : C:\Users\walia\Desktop\capstone\voiceguard-backend\models\voiceguard_model_v2.h5
+Validation NPZ: C:\Users\walia\Desktop\capstone\voiceguard-backend\data\spectrograms\validation.npz
+Validation CSV: C:\Users\walia\Desktop\capstone\voiceguard-backend\data\splits\validation.csv
+Scope         : validation.npz ONLY (test.npz excluded)
+Samples       : 1140 (bonafide=570, spoof=570)
+
+DATA AUDIT (validation.csv vs validation.npz)
+--------------------------------------------------------------
+  CSV rows              : 1140
+  NPZ samples           : 1140
+  CSV bonafide / spoof  : 570 / 570
+  NPZ bonafide / spoof  : 570 / 570
+  Spoof attack counts (CSV vs NPZ attacks field):
+    A01: CSV=75  NPZ=75
+    A02: CSV=74  NPZ=74
+    A03: CSV=76  NPZ=76
+    A04: CSV=79  NPZ=79
+    A05: CSV=56  NPZ=56
+    A06: CSV=66  NPZ=66
+    A07: CSV=67  NPZ=67
+    A08: CSV=77  NPZ=77
+
+OVERALL METRICS (positive class = spoof)
+--------------------------------------------------------------
+Confusion Matrix (rows=true, cols=predicted)
+                    pred bonafide   pred spoof
+  true bonafide            549             21
+  true spoof                 9            561
+
+  Accuracy  : 0.9737 (97.37%)
+  Precision : 0.9639 (spoof)
+  Recall    : 0.9842 (spoof)
+  F1-score  : 0.9740 (spoof)
+
+Confusion Matrix Components
+  True Positives  (TP): 561
+  True Negatives  (TN): 549
+  False Positives (FP, bonafide->spoof): 21
+  False Negatives (FN, spoof->bonafide): 9
+
+Per-Class Metrics
+  Bonafide (0) - Precision: 0.9839, Recall: 0.9632, F1: 0.9734
+  Spoof    (1) - Precision: 0.9639, Recall: 0.9842, F1: 0.9740
+
+Misclassification Rates
+  Bonafide -> Spoof: 21/570 = 3.68%
+  Spoof -> Bonafide: 9/570 = 1.58%
+
+Classification Report
+              precision    recall  f1-score   support
+
+    bonafide       0.98      0.96      0.97       570
+       spoof       0.96      0.98      0.97       570
+
+    accuracy                           0.97      1140
+   macro avg       0.97      0.97      0.97      1140
+weighted avg       0.97      0.97      0.97      1140
+
+
+ATTACK-WISE SPOOF RECALL (validation set)
+--------------------------------------------------------------
+  A01: n= 75  correct= 72  FN=  3  recall=0.9600 (96.00%)  error_rate=0.0400 (4.00%)
+  A02: n= 74  correct= 74  FN=  0  recall=1.0000 (100.00%)  error_rate=0.0000 (0.00%)
+  A03: n= 76  correct= 76  FN=  0  recall=1.0000 (100.00%)  error_rate=0.0000 (0.00%)
+  A04: n= 79  correct= 79  FN=  0  recall=1.0000 (100.00%)  error_rate=0.0000 (0.00%)
+  A05: n= 56  correct= 56  FN=  0  recall=1.0000 (100.00%)  error_rate=0.0000 (0.00%)
+  A06: n= 66  correct= 66  FN=  0  recall=1.0000 (100.00%)  error_rate=0.0000 (0.00%)
+  A07: n= 67  correct= 67  FN=  0  recall=1.0000 (100.00%)  error_rate=0.0000 (0.00%)
+  A08: n= 77  correct= 71  FN=  6  recall=0.9221 (92.21%)  error_rate=0.0779 (7.79%)
+
+Weakest attack: A08 (recall=92.21%, FN=6)
+
+A08 Specific
+  A08 recall         : 0.9221 (92.21%)
+  A08 false negatives: 6 / 77
+  A08 error rate     : 7.79%
+
+V2 VALIDATION vs V2 TEST (consistency check)
+--------------------------------------------------------------
+  Accuracy           val=97.37%  test=97.02%  delta=+0.35 pp
+  Spoof recall       val=98.42%  test=99.30%  delta=-0.88 pp
+  Bonafide->spoof    val=3.68%  test=5.26%
+  Spoof->bonafide    val=1.58%  test=0.70%
+  A08 recall         val=92.21%  test=94.29%  delta=-2.08 pp
+  A08 FN             val=6  test=4
+  Total spoof FN     val=9  test=4
+
+V2 VALIDATION vs V1 VALIDATION (existing V1 val attack analysis)
+--------------------------------------------------------------
+  Note: V1 overall validation accuracy not in existing reports.
+  Comparison uses attack-wise spoof recall from validation.npz.
+
+  Attack  V1 recall  V2 recall  V1 FN  V2 FN
+  A01        92.00%     96.00%      6      3
+  A02        98.65%    100.00%      1      0
+  A03        98.68%    100.00%      1      0
+  A04       100.00%    100.00%      0      0
+  A05       100.00%    100.00%      0      0
+  A06       100.00%    100.00%      0      0
+  A07       100.00%    100.00%      0      0
+  A08        62.34%     92.21%     29      6
+
+  Total spoof FN     V1=37 (6.49%)  V2=9 (1.58%)
+  A08 recall         V1=62.34%  V2=92.21%
+  A08 FN             V1=29  V2=6
+
+FINAL ANSWERS
+--------------------------------------------------------------
+A. Is V2 performing consistently on validation compared with test?
+   YES. Validation accuracy (97.37%) and spoof recall (98.42%)
+   are within ~0.9 pp of test (97.02%, 99.30%).
+
+B. Is A08 still the weakest attack?
+   YES. A08 has the lowest spoof recall (92.21%) on validation.
+
+C. Is the V2 improvement genuine across validation and test, or test-set-specific?
+   GENUINE across both splits. V2 beats V1 on validation spoof FN and A08 recall,
+   and also on held-out test accuracy/spoof recall. Improvement is not test-only.
+
+Confusion matrix : C:\Users\walia\Desktop\capstone\voiceguard-backend\models\v2_validation_confusion_matrix.png
+Attack plot      : C:\Users\walia\Desktop\capstone\voiceguard-backend\models\v2_validation_attack_wise.png

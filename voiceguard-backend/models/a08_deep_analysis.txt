@@ -1,0 +1,175 @@
+VoiceGuard A08 Deep Failure Analysis
+======================================================================
+Scope: diagnosis only. test.npz used for analysis, NOT model tuning.
+Model: C:\Users\walia\Desktop\capstone\voiceguard-backend\models\voiceguard_model.h5
+Data : validation.npz + test.npz + raw FLAC (center 4s clip for audio features)
+
+Sample Counts (A08, validation + test)
+  Total A08           : 147
+  A08 correct         : 87
+  A08 misclassified   : 60
+  Bonafide audio subset: 100
+
+PART A: Model Confidence
+----------------------------------------------------------------------
+  a08_correct (n=87):
+    bonafide_prob          mean=0.153036  std=0.154725  median=0.093652
+    spoof_prob             mean=0.846964  std=0.154725  median=0.906348
+
+  a08_wrong (n=60):
+    bonafide_prob          mean=0.768272  std=0.183743  median=0.791115
+    spoof_prob             mean=0.231728  std=0.183743  median=0.208885
+
+PART B: NPZ Spectrogram Features
+----------------------------------------------------------------------
+  a08_correct (n=87):
+    spoof_prob             mean=0.846964  std=0.154725  median=0.906348
+    bonafide_prob          mean=0.153036  std=0.154725  median=0.093652
+    spec_mean              mean=0.253361  std=0.046081  median=0.254772
+    spec_std               mean=0.218226  std=0.016311  median=0.215778
+    hf_energy_ratio        mean=0.216855  std=0.052681  median=0.221768
+    mid_energy_ratio       mean=0.503682  std=0.035597  median=0.501035
+    lf_energy_ratio        mean=0.279463  std=0.039283  median=0.275598
+    spec_time_grad         mean=0.077680  std=0.010270  median=0.077854
+    spec_freq_grad         mean=0.043182  std=0.007636  median=0.044150
+    spec_smoothness        mean=8.432445  std=1.204533  median=8.221336
+    spec_time_var          mean=0.043561  std=0.007153  median=0.042284
+    spec_freq_var          mean=0.027093  std=0.005568  median=0.026166
+
+  a08_wrong (n=60):
+    spoof_prob             mean=0.231728  std=0.183743  median=0.208885
+    bonafide_prob          mean=0.768272  std=0.183743  median=0.791115
+    spec_mean              mean=0.256681  std=0.065425  median=0.252060
+    spec_std               mean=0.216397  std=0.017277  median=0.214597
+    hf_energy_ratio        mean=0.221925  std=0.057451  median=0.228256
+    mid_energy_ratio       mean=0.505105  std=0.032872  median=0.507832
+    lf_energy_ratio        mean=0.272970  std=0.044103  median=0.267651
+    spec_time_grad         mean=0.073458  std=0.012397  median=0.076282
+    spec_freq_grad         mean=0.040763  std=0.007026  median=0.040986
+    spec_smoothness        mean=8.995647  std=1.585827  median=8.546288
+    spec_time_var          mean=0.043571  std=0.007854  median=0.042024
+    spec_freq_var          mean=0.023813  std=0.004798  median=0.023973
+
+  bonafide (n=1140):
+    spoof_prob             mean=0.022362  std=0.098187  median=0.000076
+    bonafide_prob          mean=0.977638  std=0.098187  median=0.999924
+    spec_mean              mean=0.244949  std=0.060449  median=0.241958
+    spec_std               mean=0.216433  std=0.018406  median=0.216490
+    hf_energy_ratio        mean=0.227796  std=0.052044  median=0.228841
+    mid_energy_ratio       mean=0.500160  std=0.042039  median=0.502500
+    lf_energy_ratio        mean=0.272043  std=0.045627  median=0.269908
+    spec_time_grad         mean=0.078603  std=0.013424  median=0.079578
+    spec_freq_grad         mean=0.043151  std=0.008627  median=0.042987
+    spec_smoothness        mean=8.473532  std=1.656330  median=8.112617
+    spec_time_var          mean=0.042959  std=0.008044  median=0.042597
+    spec_freq_var          mean=0.026303  std=0.005691  median=0.025848
+
+PART C: Raw Audio Features (4s center clip)
+----------------------------------------------------------------------
+  a08_correct (n=87):
+    duration               mean=4.000000  std=0.000000  median=4.000000
+    rms                    mean=0.038810  std=0.006899  median=0.039512
+    zcr                    mean=0.148636  std=0.039123  median=0.148426
+    centroid_mean          mean=1841.217142  std=349.522650  median=1769.261645
+    bandwidth_mean         mean=1605.181193  std=151.318179  median=1610.854571
+    rolloff_mean           mean=3434.013524  std=551.982616  median=3392.981151
+    flatness_mean          mean=0.043236  std=0.017616  median=0.040647
+    contrast_mean          mean=18.013422  std=0.995513  median=17.934276
+    silence_ratio          mean=0.246579  std=0.083921  median=0.238095
+    voiced_ratio           mean=0.753421  std=0.083921  median=0.761905
+    mfcc1_mean             mean=83.770048  std=22.137231  median=85.041229
+    mfcc2_mean             mean=-1.426922  std=14.464172  median=0.475430
+    mfcc3_mean             mean=21.829781  std=11.334272  median=20.956839
+
+  a08_wrong (n=60):
+    duration               mean=4.000000  std=0.000000  median=4.000000
+    rms                    mean=0.039494  std=0.008970  median=0.039169
+    zcr                    mean=0.136313  std=0.036044  median=0.134551
+    centroid_mean          mean=1792.917285  std=327.250595  median=1789.875216
+    bandwidth_mean         mean=1630.161701  std=175.588661  median=1638.465115
+    rolloff_mean           mean=3418.930845  std=567.100495  median=3344.060020
+    flatness_mean          mean=0.041952  std=0.019758  median=0.039054
+    contrast_mean          mean=17.767447  std=0.958833  median=17.673097
+    silence_ratio          mean=0.264683  std=0.092007  median=0.257937
+    voiced_ratio           mean=0.735317  std=0.092007  median=0.742063
+    mfcc1_mean             mean=84.784514  std=21.416138  median=86.940872
+    mfcc2_mean             mean=3.809019  std=12.104807  median=6.051206
+    mfcc3_mean             mean=24.324264  std=9.704737  median=24.270066
+
+  bonafide (n=100):
+    duration               mean=4.000000  std=0.000000  median=4.000000
+    rms                    mean=0.047278  std=0.015524  median=0.045282
+    zcr                    mean=0.145793  std=0.052290  median=0.140493
+    centroid_mean          mean=1892.113721  std=434.552151  median=1847.540224
+    bandwidth_mean         mean=1621.164696  std=195.663254  median=1621.977872
+    rolloff_mean           mean=3499.671999  std=694.960396  median=3489.800347
+    flatness_mean          mean=0.042990  std=0.041023  median=0.032532
+    contrast_mean          mean=19.156937  std=1.658836  median=19.023478
+    silence_ratio          mean=0.248254  std=0.130449  median=0.238095
+    voiced_ratio           mean=0.751746  std=0.130449  median=0.761905
+    mfcc1_mean             mean=78.271288  std=26.246587  median=80.054214
+    mfcc2_mean             mean=2.977546  std=19.957043  median=1.673393
+    mfcc3_mean             mean=24.741122  std=15.297485  median=25.733500
+
+PART D: Significant Differences (Mann-Whitney, p<0.05)
+----------------------------------------------------------------------
+Misclassified vs Correct A08 (NPZ):
+  * spoof_prob             delta=-0.615236 p=0.0000 d=-3.622
+  * bonafide_prob          delta=+0.615236 p=0.0000 d=+3.622
+  * spec_freq_var          delta=-0.003280 p=0.0017 d=-0.631
+
+Misclassified vs Correct A08 (raw audio):
+  * mfcc2_mean             delta=+5.235940 p=0.0208 d=+0.393
+
+Misclassified A08 vs Bonafide:
+  * spoof_prob             delta=+0.221140 p=0.0000
+  * bonafide_prob          delta=-0.221140 p=0.0000
+  * contrast_mean          delta=-1.389490 p=0.0000
+  * rms                    delta=-0.007784 p=0.0027
+  * spec_freq_var          delta=-0.002340 p=0.0122
+  * spec_mean              delta=+0.024032 p=0.0418
+
+PART E: Hypothesis Review
+----------------------------------------------------------------------
+  High-frequency energy (NPZ): NOT significant (p=0.4671)
+  Spectrogram smoothness: NOT significant (p=0.0714)
+  Temporal variance (NPZ): NOT significant (p=0.9733)
+  Silence ratio (audio): NOT significant (p=0.2345)
+  Spectral flatness: NOT significant (p=0.6070)
+  Spectral centroid: NOT significant (p=0.5168)
+  Raw loudness RMS: NOT significant (p=0.5504)
+
+Most Supported Explanation
+----------------------------------------------------------------------
+Misclassified A08 samples are not clearly separable from correctly detected A08 using
+simple summary statistics. The strongest measurable difference is model confidence:
+spoof prob mean correct=0.847, misclassified=0.232.
+
+What IS actually different:
+  - Predicted probabilities (large gap).
+  - spoof_prob (p=0.0000, delta=-0.6152)
+  - bonafide_prob (p=0.0000, delta=+0.6152)
+  - spec_freq_var (p=0.0017, delta=-0.0033)
+  - mfcc2_mean (p=0.0208, delta=+5.2359)
+  - Misclassified A08 closer to bonafide on: spoof_prob (p=0.0000)
+
+What is NOT different:
+  - NPZ n.s. features: spec_freq_grad, spec_time_grad, spec_smoothness, lf_energy_ratio, hf_energy_ratio, spec_std, mid_energy_ratio, spec_mean, spec_time_var
+  - Raw audio n.s. features: zcr, mfcc3_mean, contrast_mean, silence_ratio, voiced_ratio, bandwidth_mean, centroid_mean, rms, flatness_mean, mfcc1_mean, rolloff_mean, duration
+
+What remains uncertain:
+  - Fine-grained CNN texture patterns.
+  - Exact A08 synthesis mechanism.
+  - Subtle cues attenuated by per-sample spectrogram normalization.
+
+Logical improvements:
+  - Deeper/multi-scale or temporal model; hard-example training.
+  - Fixed/global spectrogram scaling.
+  - Validation-only threshold tuning for spoof recall.
+
+Plots:
+  confidence: C:\Users\walia\Desktop\capstone\voiceguard-backend\models\a08_confidence_comparison.png
+  features: C:\Users\walia\Desktop\capstone\voiceguard-backend\models\a08_feature_comparison.png
+  audio_features: C:\Users\walia\Desktop\capstone\voiceguard-backend\models\a08_audio_features.png
+  group_means: C:\Users\walia\Desktop\capstone\voiceguard-backend\models\a08_hf_energy_comparison.png
+  examples: C:\Users\walia\Desktop\capstone\voiceguard-backend\models\a08_failure_examples_deep.png

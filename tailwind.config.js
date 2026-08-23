@@ -7,12 +7,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        'brand-base': '#0D0D0F',
-        'brand-surface': '#141417',
-        'brand-border': '#2A2A30',
-        'brand-violet': '#6C63FF',
-        'brand-mint': '#00E5A0',
-        'brand-danger': '#FF4D6D',
+        'brand-base': '#0A0F18',
+        'brand-surface': '#0F172A',
+        'brand-border': '#1E293B',
+        'brand-accent': '#22D3EE',
+        'brand-mint': '#34D399',
+        'brand-danger': '#FB7185',
       },
       fontFamily: {
         mono: ['"JetBrains Mono"', '"IBM Plex Mono"', 'monospace'],

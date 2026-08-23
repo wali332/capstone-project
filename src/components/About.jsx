@@ -20,7 +20,7 @@ export default function About() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="font-mono text-[11px] text-brand-violet uppercase tracking-widest mb-6 border-b border-brand-violet/30 pb-2 inline-block max-w-max">
+          <span className="font-mono text-[11px] text-brand-accent uppercase tracking-widest mb-6 border-b border-brand-accent/30 pb-2 inline-block max-w-max">
             THE PROBLEM
           </span>
           <p className="font-sans text-[15px] text-gray-400 leading-relaxed">
@@ -41,7 +41,7 @@ export default function About() {
         >
           {needs.map((item, idx) => (
             <div key={idx} className="flex flex-col md:flex-row md:items-baseline gap-2 pb-4 border-b border-brand-border last:border-b-0">
-               <div className="font-mono text-[13px] text-brand-violet tracking-wide md:w-1/3">
+               <div className="font-mono text-[13px] text-brand-accent tracking-wide md:w-1/3">
                  {item.label}
                </div>
                <div className="font-sans text-[14px] text-gray-400 md:w-2/3">

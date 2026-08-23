@@ -1,0 +1,45 @@
+VoiceGuard Model Evaluation Report
+==================================================
+Model       : C:\Users\walia\Desktop\capstone\voiceguard-backend\models\voiceguard_model.h5
+Test data   : C:\Users\walia\Desktop\capstone\voiceguard-backend\data\spectrograms\test.npz
+Test samples: 1140 (bonafide=570, spoof=570)
+
+Confusion Matrix (rows=true, cols=predicted)
+                    pred bonafide   pred spoof
+  true bonafide            563              7
+  true spoof                39            531
+
+Overall Metrics (positive class = spoof)
+  Accuracy  : 0.9596 (95.96%)
+  Precision : 0.9870
+  Recall    : 0.9316
+  F1-score  : 0.9585
+
+Confusion Matrix Components
+  True Positives  (TP, spoof correctly detected)     : 531
+  True Negatives  (TN, bonafide correctly detected)  : 563
+  False Positives (FP, bonafide classified as spoof) : 7
+  False Negatives (FN, spoof classified as bonafide) : 39
+
+Per-Class Metrics
+  Bonafide (0) - Precision: 0.9352, Recall: 0.9877, F1: 0.9608
+  Spoof    (1) - Precision: 0.9870, Recall: 0.9316, F1: 0.9585
+
+Misclassification Rates
+  Bonafide -> Spoof errors : 7 / 570 = 1.23%
+  Spoof -> Bonafide errors : 39 / 570 = 6.84%
+
+Classification Report
+              precision    recall  f1-score   support
+
+    bonafide     0.9352    0.9877    0.9608       570
+       spoof     0.9870    0.9316    0.9585       570
+
+    accuracy                         0.9596      1140
+   macro avg     0.9611    0.9596    0.9596      1140
+weighted avg     0.9611    0.9596    0.9596      1140
+
+
+Summary
+  More common error: spoof classified as bonafide
+  Confusion matrix image: C:\Users\walia\Desktop\capstone\voiceguard-backend\models\confusion_matrix.png

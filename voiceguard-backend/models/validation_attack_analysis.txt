@@ -1,0 +1,72 @@
+VoiceGuard Validation Attack Analysis
+============================================================
+Model          : C:\Users\walia\Desktop\capstone\voiceguard-backend\models\voiceguard_model.h5
+Train CSV      : C:\Users\walia\Desktop\capstone\voiceguard-backend\data\splits\train.csv
+Validation CSV : C:\Users\walia\Desktop\capstone\voiceguard-backend\data\splits\validation.csv
+Validation NPZ : C:\Users\walia\Desktop\capstone\voiceguard-backend\data\spectrograms\validation.npz
+Note           : test.npz intentionally excluded from this analysis.
+
+PART 1: Attack Distribution in Splits (spoof samples, A01-A08)
+------------------------------------------------------------
+
+1. Spoof samples per attack in TRAIN
+   A01:  332  (12.5% of train spoofs)
+   A02:  331  (12.4% of train spoofs)
+   A03:  326  (12.3% of train spoofs)
+   A04:  322  (12.1% of train spoofs)
+   A05:  339  (12.7% of train spoofs)
+   A06:  344  (12.9% of train spoofs)
+   A07:  338  (12.7% of train spoofs)
+   A08:  328  (12.3% of train spoofs)
+   Total train spoof samples: 2660
+
+2. Spoof samples per attack in VALIDATION
+   A01:   75  (13.2% of val spoofs)
+   A02:   74  (13.0% of val spoofs)
+   A03:   76  (13.3% of val spoofs)
+   A04:   79  (13.9% of val spoofs)
+   A05:   56  (9.8% of val spoofs)
+   A06:   66  (11.6% of val spoofs)
+   A07:   67  (11.8% of val spoofs)
+   A08:   77  (13.5% of val spoofs)
+   Total validation spoof samples: 570
+
+3. A08 sample counts specifically
+   Train A08      : 328
+   Validation A08 : 77
+
+4. Are all attacks reasonably represented?
+   Train spoof range    : 322 - 344 (mean 332.5)
+   Validation spoof range: 56 - 79 (mean 71.2)
+   Partially. Some imbalance exists but all attacks are present.
+   All 8 attack categories (A01-A08) appear in both train and validation.
+
+5. Does A08 have enough training examples compared with A01-A07?
+   A08 train count         : 328
+   A01-A07 train range     : 322 - 344
+   A08 vs A01-A07 mean     : 328 vs 333.1
+   Yes. A08 has 328 training samples, which is within the A01-A07 range (322-344). A08 is not under-represented in training relative to other attacks.
+
+PART 2: Existing Model Performance on validation.npz (spoof recall by attack)
+------------------------------------------------------------
+Positive class: spoof (y=1). Recall = correctly detected spoofs / total attack samples.
+
+   A01: n= 75  correct= 69  FN=  6  recall=0.9200 (92.00%)
+   A02: n= 74  correct= 73  FN=  1  recall=0.9865 (98.65%)
+   A03: n= 76  correct= 75  FN=  1  recall=0.9868 (98.68%)
+   A04: n= 79  correct= 79  FN=  0  recall=1.0000 (100.00%)
+   A05: n= 56  correct= 56  FN=  0  recall=1.0000 (100.00%)
+   A06: n= 66  correct= 66  FN=  0  recall=1.0000 (100.00%)
+   A07: n= 67  correct= 67  FN=  0  recall=1.0000 (100.00%)
+   A08: n= 77  correct= 48  FN= 29  recall=0.6234 (62.34%)
+
+Validation Attack Recall Summary
+   Best validation recall  : A04 (100.00%)
+   Worst validation recall : A08 (62.34%)
+   A08 validation recall   : 62.34% (29 FN / 77 samples)
+   Total spoof FN on val   : 37 / 570 (6.49%)
+
+Interpretation
+------------------------------------------------------------
+   A08 underperforms the average validation attack recall, consistent with test-set findings, but this validation analysis should be used for diagnosis only — not for model-selection decisions per project protocol.
+   Training data balance suggests A08 weakness is unlikely to be caused by insufficient A08 examples; the baseline model appears to struggle with A08 characteristics specifically.

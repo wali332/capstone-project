@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from 'framer-motion';
+import { uploadAudio, validateAudioFile, formatFileSize, checkHealth } from '../api/api';
 
 const TERMINAL_LINES = [
   "> received audio file...",
@@ -15,6 +16,8 @@ export default function LiveDemo() {
   const [dragActive, setDragActive] = useState(false);
   const [logLines, setLogLines] = useState([]);
   const [flashColor, setFlashColor] = useState('');
+  const [error, setError] = useState('');
+  const [backendConnected, setBackendConnected] = useState(false);
   
   const [fileStats, setFileStats] = useState({
     name: '',
@@ -24,10 +27,24 @@ export default function LiveDemo() {
     fakePercent: 0,
     realPercent: 0,
     verdict: '',
-    confidence: ''
+    confidence: '',
+    spectrogram: ''
   });
 
   const fileInputRef = useRef(null);
+
+  // Test backend connectivity on component mount
+  useEffect(() => {
+    checkHealth()
+      .then((data) => {
+        console.log('✅ Backend connected:', data);
+        setBackendConnected(true);
+      })
+      .catch((err) => {
+        console.error('❌ Backend not reachable:', err);
+        setBackendConnected(false);
+      });
+  }, []);
 
   useEffect(() => {
     if (state === 'ANALYZING') {
@@ -86,29 +103,76 @@ export default function LiveDemo() {
     }
   };
 
-  const startAnalysis = (file) => {
-    const isFake = Math.random() > 0.5;
-    const fakeScore = isFake ? Math.floor(Math.random() * 15 + 85) : Math.floor(Math.random() * 15 + 5);
-    const realScore = 100 - fakeScore;
-    
-    setFileStats({
-      name: file.name,
-      duration: '00:02:14', 
-      size: (file.size / (1024 * 1024)).toFixed(1) + ' MB',
-      sampleRate: '48.0 kHz',
-      fakePercent: fakeScore,
-      realPercent: realScore,
-      verdict: isFake ? 'AI GENERATED' : 'HUMAN VOICE',
-      confidence: `${Math.max(fakeScore, realScore)}%`
-    });
+  const startAnalysis = async (file) => {
+    try {
+      setError('');
+      
+      // Validate file
+      const validation = validateAudioFile(file);
+      if (!validation.valid) {
+        setError(validation.error);
+        return;
+      }
 
-    setState('ANALYZING');
+      // Set initial state
+      setFileStats({
+        name: file.name,
+        duration: '--:--',
+        size: formatFileSize(file.size),
+        sampleRate: '-- kHz',
+        fakePercent: 0,
+        realPercent: 0,
+        verdict: '',
+        confidence: '',
+        spectrogram: ''
+      });
+
+      setState('ANALYZING');
+
+      // Upload to backend
+      const result = await uploadAudio(file);
+
+      // Update with real results from API
+      setFileStats({
+        name: file.name,
+        duration: result.duration,
+        size: formatFileSize(file.size),
+        sampleRate: result.sample_rate,
+        fakePercent: result.fake_percent,
+        realPercent: result.real_percent,
+        verdict: result.verdict,
+        confidence: result.confidence,
+        spectrogram: result.spectrogram_b64
+      });
+
+      // Wait for terminal animation to finish, then show results
+      setTimeout(() => setState('RESULTS'), 2000);
+    } catch (err) {
+      setError(
+        err.message === 'Failed to fetch'
+          ? 'Backend API is not running. Please start the backend server at http://localhost:8000'
+          : err.message
+      );
+      setState('IDLE');
+      setFileStats({
+        name: '',
+        duration: '',
+        size: '',
+        sampleRate: '',
+        fakePercent: 0,
+        realPercent: 0,
+        verdict: '',
+        confidence: '',
+        spectrogram: ''
+      });
+    }
   };
 
   const reset = () => {
     setState('IDLE');
     setLogLines([]);
     setFlashColor('');
+    setError('');
     if (fileInputRef.current) {
         fileInputRef.current.value = "";
     }
@@ -118,12 +182,12 @@ export default function LiveDemo() {
     const style = document.createElement('style');
     style.innerHTML = `
       @keyframes borderFlashFake {
-        0%, 100% { border-color: #2A2A30; box-shadow: 0 0 16px rgba(108, 99, 255, 0.2); }
-        50% { border-color: #FF4D6D; box-shadow: 0 0 32px rgba(255, 77, 109, 0.8); }
+        0%, 100% { border-color: #1E293B; box-shadow: 0 0 16px rgba(34, 211, 238, 0.2); }
+        50% { border-color: #FB7185; box-shadow: 0 0 32px rgba(251, 113, 133, 0.8); }
       }
       @keyframes borderFlashReal {
-        0%, 100% { border-color: #2A2A30; box-shadow: 0 0 16px rgba(108, 99, 255, 0.2); }
-        50% { border-color: #00E5A0; box-shadow: 0 0 32px rgba(0, 229, 160, 0.8); }
+        0%, 100% { border-color: #1E293B; box-shadow: 0 0 16px rgba(34, 211, 238, 0.2); }
+        50% { border-color: #34D399; box-shadow: 0 0 32px rgba(52, 211, 153, 0.8); }
       }
     `;
     document.head.appendChild(style);
@@ -144,6 +208,14 @@ export default function LiveDemo() {
           Try it yourself
         </motion.h2>
 
+        {/* Backend Status Indicator */}
+        <div className="mb-6 flex items-center gap-2">
+          <div className={`w-2 h-2 rounded-full ${backendConnected ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`} />
+          <span className={`font-mono text-[12px] ${backendConnected ? 'text-green-400' : 'text-red-400'}`}>
+            Backend: {backendConnected ? 'Connected' : 'Disconnected'}
+          </span>
+        </div>
+
         <motion.p
           className="font-sans text-[15px] text-gray-400 mb-8 max-w-2xl text-center"
           initial={{ opacity: 0, y: 20 }}
@@ -153,6 +225,20 @@ export default function LiveDemo() {
         >
           Upload any audio file. Our model analyzes the mel spectrogram and returns a verdict in seconds.
         </motion.p>
+
+        {/* Error Message */}
+        <AnimatePresence>
+          {error && (
+            <motion.div
+              className="w-full max-w-5xl mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-lg"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+            >
+              <p className="font-mono text-[13px] text-red-400">{error}</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Sample files text block */}
         <motion.div
@@ -168,7 +254,7 @@ export default function LiveDemo() {
         </motion.div>
 
         <motion.div 
-          className={`w-full max-w-5xl h-[600px] flex bg-brand-base rounded-[12px] border border-brand-border shadow-[0_0_16px_rgba(108,99,255,0.2)] overflow-hidden transition-colors duration-200 ${flashColor}`}
+          className={`w-full max-w-5xl h-[600px] flex bg-brand-base rounded-[12px] border border-brand-border shadow-[0_0_16px_rgba(34,211,238,0.2)] overflow-hidden transition-colors duration-200 ${flashColor}`}
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -197,7 +283,7 @@ export default function LiveDemo() {
                 >
                   <div 
                     className={`w-full max-w-[280px] aspect-[4/3] border-[2px] rounded-none flex items-center justify-center transition-colors relative
-                      ${dragActive ? 'border-solid border-brand-violet bg-brand-violet/5' : 'border-dashed border-brand-border bg-brand-surface'}
+                      ${dragActive ? 'border-solid border-brand-accent bg-brand-accent/5' : 'border-dashed border-brand-border bg-brand-surface'}
                       ${state === 'ANALYZING' ? 'opacity-50 pointer-events-none' : ''}
                     `}
                     onDragEnter={handleDrag}
@@ -213,10 +299,10 @@ export default function LiveDemo() {
                       <div className="flex flex-col items-center gap-4">
                         <div className="flex items-end gap-[3px] h-6">
                             {[1,2,3,4,5].map(i => (
-                              <motion.div key={i} animate={{ height: [6, Math.random() * 16 + 8, 6] }} transition={{ repeat: Infinity, duration: 0.8 + i*0.1 }} className="w-1.5 bg-brand-violet rounded-sm" />
+                              <motion.div key={i} animate={{ height: [6, Math.random() * 16 + 8, 6] }} transition={{ repeat: Infinity, duration: 0.8 + i*0.1 }} className="w-1.5 bg-brand-accent rounded-sm" />
                             ))}
                         </div>
-                        <span className="font-mono text-[11px] text-brand-violet">Extracting...</span>
+                        <span className="font-mono text-[11px] text-brand-accent">Extracting...</span>
                       </div>
                     )}
                   </div>
@@ -232,7 +318,7 @@ export default function LiveDemo() {
                   {state === 'IDLE' && (
                     <button 
                       onClick={() => fileInputRef.current?.click()}
-                      className="mt-6 text-[13px] text-brand-violet hover:text-white hover:underline decoration-1 underline-offset-4 outline-none transition-colors"
+                      className="mt-6 text-[13px] text-brand-accent hover:text-white hover:underline decoration-1 underline-offset-4 outline-none transition-colors"
                     >
                       or browse files
                     </button>
@@ -304,13 +390,13 @@ export default function LiveDemo() {
             {/* ANALYZING: Terminal Log */}
             {state === 'ANALYZING' && (
               <div className="w-full h-full p-12 bg-brand-surface relative z-10 flex flex-col justify-end overflow-hidden">
-                <div className="font-mono text-[13px] text-brand-violet leading-loose opacity-80">
+                <div className="font-mono text-[13px] text-brand-accent leading-loose opacity-80">
                   {logLines.map((line, index) => (
                     <motion.div key={index} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
                         {line}
                     </motion.div>
                   ))}
-                  <div className="inline-block w-2 h-3.5 bg-brand-violet ml-1 translate-y-[2px] animate-[pulse_1s_ease-in-out_infinite]" />
+                  <div className="inline-block w-2 h-3.5 bg-brand-accent ml-1 translate-y-[2px] animate-[pulse_1s_ease-in-out_infinite]" />
                 </div>
               </div>
             )}
@@ -323,7 +409,7 @@ export default function LiveDemo() {
               >
                 <div className="flex-1 min-h-0 relative">
                   <img 
-                    src="/spectrogram.png" 
+                    src={fileStats.spectrogram || "/spectrogram.png"} 
                     alt="Mel Spectrogram" 
                     className="w-full h-full object-cover grayscale brightness-125 contrast-[1.2] opacity-80"
                   />

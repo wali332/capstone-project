@@ -1,0 +1,84 @@
+VoiceGuard A08 Failure Case Analysis
+=======================================================
+Model     : C:\Users\walia\Desktop\capstone\voiceguard-backend\models\voiceguard_model.h5
+Test data : C:\Users\walia\Desktop\capstone\voiceguard-backend\data\spectrograms\test.npz
+Scope     : A08 spoof samples only (y=1, attack=A08)
+
+Classification Counts
+-------------------------------------------------------
+  Total A08 test samples              : 70
+  Correctly detected A08 spoofs       : 39
+  A08 misclassified as bonafide (FN)  : 31
+  A08 recall                          : 0.5571 (55.71%)
+  A08 error rate                      : 0.4429 (44.29%)
+
+Statistical Comparison
+-------------------------------------------------------
+Correctly detected (n=39):
+  bonafide probability         mean=0.136688  std=0.146094  min=0.000000  max=0.462559
+  spoof probability            mean=0.863312  std=0.146094  min=0.537441  max=1.000000
+  spectrogram mean             mean=0.255307  std=0.048464  min=0.161331  max=0.351662
+  spectrogram std              mean=0.218735  std=0.017106  min=0.186795  max=0.264336
+  spectrogram min              mean=0.000101  std=0.000620  min=0.000000  max=0.003922
+  spectrogram max              mean=0.982805  std=0.008454  min=0.964706  max=0.996078
+
+Misclassified (FN) (n=31):
+  bonafide probability         mean=0.753132  std=0.181894  min=0.504357  max=1.000000
+  spoof probability            mean=0.246868  std=0.181894  min=0.000000  max=0.495643
+  spectrogram mean             mean=0.267751  std=0.074571  min=0.148212  max=0.463869
+  spectrogram std              mean=0.218717  std=0.017028  min=0.195796  max=0.258179
+  spectrogram min              mean=0.000000  std=0.000000  min=0.000000  max=0.000000
+  spectrogram max              mean=0.976597  std=0.011202  min=0.941176  max=0.992157
+
+Group Comparison (misclassified - correct mean difference):
+-------------------------------------------------------
+  bonafide probability         delta=+0.616444
+  spoof probability            delta=-0.616444
+  spectrogram mean             delta=+0.012444
+  spectrogram std              delta=-0.000018
+  spectrogram min              delta=-0.000101
+  spectrogram max              delta=-0.006208
+
+Interpretation:
+-------------------------------------------------------
+  - misclassified samples have higher bonafide probability
+  - misclassified samples have much lower spoof probability
+
+  Conclusion: Misclassified A08 samples differ most clearly in model output probabilities rather than raw spectrogram statistics. The CNN assigns them bonafide-like confidence despite similar-looking spectrogram ranges.
+
+Misclassified A08 Sample IDs
+-------------------------------------------------------
+   1. T_0000016288  bonafide_prob=0.5044  spoof_prob=0.4956
+   2. T_0000012043  bonafide_prob=0.7962  spoof_prob=0.2038
+   3. T_0000019063  bonafide_prob=0.9600  spoof_prob=0.0400
+   4. T_0000022968  bonafide_prob=1.0000  spoof_prob=0.0000
+   5. T_0000004182  bonafide_prob=0.5648  spoof_prob=0.4352
+   6. T_0000008026  bonafide_prob=0.5044  spoof_prob=0.4956
+   7. T_0000026794  bonafide_prob=0.7960  spoof_prob=0.2040
+   8. T_0000021869  bonafide_prob=0.5044  spoof_prob=0.4956
+   9. T_0000035565  bonafide_prob=0.5503  spoof_prob=0.4497
+  10. T_0000010002  bonafide_prob=0.5708  spoof_prob=0.4292
+  11. T_0000029231  bonafide_prob=0.5044  spoof_prob=0.4956
+  12. T_0000001674  bonafide_prob=0.9395  spoof_prob=0.0605
+  13. T_0000027913  bonafide_prob=0.9898  spoof_prob=0.0102
+  14. T_0000002566  bonafide_prob=0.6417  spoof_prob=0.3583
+  15. T_0000034882  bonafide_prob=0.7779  spoof_prob=0.2221
+  16. T_0000012765  bonafide_prob=0.7226  spoof_prob=0.2774
+  17. T_0000032684  bonafide_prob=0.5899  spoof_prob=0.4101
+  18. T_0000019719  bonafide_prob=0.7862  spoof_prob=0.2138
+  19. T_0000032164  bonafide_prob=0.9997  spoof_prob=0.0003
+  20. T_0000030450  bonafide_prob=0.5874  spoof_prob=0.4126
+  21. T_0000004531  bonafide_prob=0.8473  spoof_prob=0.1527
+  22. T_0000012779  bonafide_prob=0.9900  spoof_prob=0.0100
+  23. T_0000028246  bonafide_prob=0.9841  spoof_prob=0.0159
+  24. T_0000022717  bonafide_prob=0.9810  spoof_prob=0.0190
+  25. T_0000022361  bonafide_prob=0.6559  spoof_prob=0.3441
+  26. T_0000009472  bonafide_prob=0.8377  spoof_prob=0.1623
+  27. T_0000035214  bonafide_prob=0.9907  spoof_prob=0.0093
+  28. T_0000022180  bonafide_prob=0.9063  spoof_prob=0.0937
+  29. T_0000017553  bonafide_prob=0.5044  spoof_prob=0.4956
+  30. T_0000014994  bonafide_prob=0.6973  spoof_prob=0.3027
+  31. T_0000020348  bonafide_prob=0.6621  spoof_prob=0.3379
+
+Visualization: C:\Users\walia\Desktop\capstone\voiceguard-backend\models\a08_failure_examples.png
+(5 representative samples per group, seed=42)

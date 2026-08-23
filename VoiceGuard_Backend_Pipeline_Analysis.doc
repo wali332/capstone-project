@@ -1,0 +1,64 @@
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 2rem; }
+  h1 { color: #2A2A30; border-bottom: 2px solid #6C63FF; padding-bottom: 5px; }
+  h2 { color: #6C63FF; margin-top: 1.5rem; }
+  h3 { color: #444; }
+  ul { margin-bottom: 1rem; }
+  li { margin-bottom: 0.5rem; }
+  code { background-color: #f4f4f4; padding: 2px 4px; border-radius: 4px; font-family: monospace; }
+</style>
+</head>
+<body>
+
+<h1>VoiceGuard Backend Processing Pipeline Analysis</h1>
+
+<h2>1. Overview of the Pipeline</h2>
+<p>The VoiceGuard backend is designed to accept raw audio files, apply a series of Digital Signal Processing (DSP) steps to clean and standardize the audio, extract a Mel Spectrogram, and pass this visual representation into a Convolutional Neural Network (CNN) to detect whether the audio is Human or AI-Generated (Deepfake).</p>
+
+<h2>2. Key Files Involved</h2>
+<ul>
+  <li><code>voiceguard-backend/app.py</code>: The main FastAPI server file. This is the entry point that exposes the <code>POST /analyze</code> endpoint to the frontend. It handles HTTP requests, invokes the processing pipeline, runs the model, and returns the formatted JSON response and dynamically generated spectrogram.</li>
+  <li><code>voiceguard-backend/scripts/audio_pipeline.py</code>: The core signal processing module. It contains the logic to convert raw audio bytes into a normalized 128x128 Mel Spectrogram array that the CNN expects.</li>
+  <li><code>voiceguard-backend/models/voiceguard_model.h5</code>: The compiled and trained Convolutional Neural Network (CNN) model built with TensorFlow/Keras.</li>
+</ul>
+
+<h2>3. Step-by-Step Data Flow (From Input to Output)</h2>
+
+<h3>Stage A: Input Reception (<code>app.py</code>)</h3>
+<ol>
+  <li><strong>File Upload:</strong> The React frontend sends the audio file to the <code>POST /analyze</code> endpoint.</li>
+  <li><strong>Validation:</strong> The backend validates that the file is an allowed format (<code>.wav</code>, <code>.mp3</code>, or <code>.flac</code>) and ensures the deep learning model is loaded in memory.</li>
+  <li><strong>Byte Extraction:</strong> The file is read into memory as raw bytes to minimize disk I/O latency.</li>
+</ol>
+
+<h3>Stage B: Digital Signal Processing (<code>audio_pipeline.py</code>)</h3>
+<p>The raw bytes are passed into the <code>process_audio()</code> function, which executes the following sequential steps:</p>
+<ol>
+  <li><strong>Decoding &amp; Resampling (<code>load_audio</code>):</strong> The audio is decoded using the <code>librosa</code> library, converted to Mono (single channel), and uniformly resampled to 16,000 Hz.</li>
+  <li><strong>Silence Trimming (<code>trim_silence</code>):</strong> Leading and trailing silence below a 30dB threshold is removed so the model focuses only on the speech content.</li>
+  <li><strong>Noise Reduction (<code>reduce_noise</code>):</strong> A spectral subtraction method is applied. It samples the first 0.3 seconds to estimate a background stationary noise profile (e.g., room hiss or mic static) and softly subtracts it from the entire clip.</li>
+  <li><strong>Pre-emphasis Filtering (<code>apply_pre_emphasis</code>):</strong> A high-pass filter (coefficient = 0.97) is applied to boost higher frequencies. Deepfake TTS engines often leave subtle high-frequency artifacts; this step amplifies those artifacts to make them easier for the CNN to detect.</li>
+  <li><strong>RMS Normalization (<code>normalize_rms</code>):</strong> The loudness of the audio is scaled to a consistent target RMS (0.05). This prevents volume discrepancies from affecting the model's accuracy.</li>
+  <li><strong>Duration Fixing (<code>fix_length</code>):</strong> The audio is either cropped or center-padded with silence to be exactly 4.0 seconds long. This ensures the resulting image dimensions are strictly uniform.</li>
+</ol>
+
+<h3>Stage C: Feature Extraction (<code>audio_pipeline.py</code>)</h3>
+<ol>
+  <li><strong>Mel Spectrogram Generation (<code>extract_melspec</code>):</strong> The normalized 4-second audio is converted into a Mel Spectrogram (a visual representation of frequency over time, scaled to human hearing perception) using an FFT window of 1024 and hop length of 256.</li>
+  <li><strong>Decibel Scaling &amp; Normalization:</strong> The power spectrogram is converted to the Decibel (dB) scale and normalized so all values fall perfectly between 0.0 and 1.0.</li>
+  <li><strong>Resizing (<code>resize_spec</code>):</strong> The array is resized using bilinear interpolation into a strict 128x128 grid.</li>
+</ol>
+
+<h3>Stage D: Inference &amp; Output Generation (<code>app.py</code>)</h3>
+<ol>
+  <li><strong>Model Prediction:</strong> The (128, 128) array is expanded to (1, 128, 128, 1) and fed into the CNN (<code>model.predict()</code>).</li>
+  <li><strong>Verdict Calculation:</strong> The model outputs two probabilities: Real and Fake. The backend selects the highest probability as its confidence score and sets the verdict to either <code>HUMAN VOICE</code> or <code>AI GENERATED</code>.</li>
+  <li><strong>Visual Generation:</strong> Using <code>matplotlib</code>, the 128x128 array is plotted using the 'magma' colormap, rendered in memory, and encoded as a base64 PNG string.</li>
+  <li><strong>Final Delivery:</strong> The backend returns a JSON object containing the verdict, confidence percentages, audio length, sample rate, and the base64 spectrogram image back to the React frontend.</li>
+</ol>
+
+</body>
+</html>

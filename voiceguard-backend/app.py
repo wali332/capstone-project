@@ -15,6 +15,11 @@ from pathlib import Path
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import io
+import base64
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 # Import our audio pipeline
 sys.path.insert(0, str(Path(__file__).resolve().parent / "scripts"))
@@ -22,7 +27,7 @@ from audio_pipeline import process_audio, load_audio, SAMPLE_RATE, DURATION
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 BASE_DIR   = Path(__file__).resolve().parent
-MODEL_PATH = BASE_DIR / "models" / "voiceguard_model.h5"
+MODEL_PATH = BASE_DIR / "models" / "voiceguard_model_v2.h5"
 
 ALLOWED_EXTENSIONS = {".wav", ".mp3", ".flac"}
 ALLOWED_TYPES = {
@@ -55,9 +60,9 @@ def load_model():
         print(f"[!] Model not found at {MODEL_PATH}")
         print("    Run: python scripts/train.py")
         return
-    print(f"[→] Loading model from {MODEL_PATH}...")
+    print(f"[->] Loading model from {MODEL_PATH}...")
     model = tf.keras.models.load_model(str(MODEL_PATH))
-    print("[✓] Model loaded and ready")
+    print("[OK] Model loaded and ready")
 
 
 # ── Response schema ────────────────────────────────────────────────────────────
@@ -68,6 +73,7 @@ class AnalysisResult(BaseModel):
     confidence: int
     sample_rate: str
     duration: str
+    spectrogram_b64: str
 
 
 # ── Routes ─────────────────────────────────────────────────────────────────────
@@ -127,6 +133,18 @@ async def analyze_audio(file: UploadFile = File(...)):
     confidence   = max(fake_percent, real_percent)
     verdict      = "AI GENERATED" if fake_prob >= 0.5 else "HUMAN VOICE"
 
+    # Generate Spectrogram Image
+    fig, ax = plt.subplots(figsize=(4, 4), dpi=100)
+    ax.imshow(spec, aspect='auto', origin='lower', cmap='magma')
+    ax.axis('off')
+    fig.tight_layout(pad=0)
+    buf = io.BytesIO()
+    fig.savefig(buf, format='png', bbox_inches='tight', pad_inches=0, facecolor='#0D0D0F')
+    plt.close(fig)
+    buf.seek(0)
+    img_b64 = base64.b64encode(buf.read()).decode('utf-8')
+    spec_data_uri = f"data:image/png;base64,{img_b64}"
+
     return AnalysisResult(
         verdict=verdict,
         fake_percent=fake_percent,
@@ -134,4 +152,5 @@ async def analyze_audio(file: UploadFile = File(...)):
         confidence=confidence,
         sample_rate=samplerate_str,
         duration=duration_str,
+        spectrogram_b64=spec_data_uri,
     )

@@ -1,0 +1,179 @@
+VoiceGuard CNN V2 — A08 Failure Case Analysis
+=================================================================
+Model : C:\Users\walia\Desktop\capstone\voiceguard-backend\models\voiceguard_model_v2.h5
+Scope : A08 spoof false negatives only (predicted bonafide, y=1, attack=A08)
+Splits: validation.npz + test.npz (analysis only, no threshold tuning)
+
+SUMMARY COUNTS
+-----------------------------------------------------------------
+  Validation A08 total / correct / FN : 77 / 71 / 6
+  Test A08 total / correct / FN       : 70 / 66 / 4
+  Combined A08 FN                     : 10
+  Validation A08 recall               : 92.21%
+  Test A08 recall                     : 94.29%
+
+VALIDATION A08 FALSE NEGATIVES (6 samples)
+-----------------------------------------------------------------
+   1. T_0000005517  bonafide_prob=0.6140  spoof_prob=0.3860  [high-confidence]
+      spec mean=0.2025 std=0.2386 min=0.0000 max=0.9882 freq_var=0.012309 time_var=0.055535
+      CSV check: label=spoof attack=A08
+   2. T_0000004220  bonafide_prob=0.6462  spoof_prob=0.3538  [high-confidence]
+      spec mean=0.2703 std=0.2343 min=0.0000 max=0.9686 freq_var=0.027898 time_var=0.051673
+      CSV check: label=spoof attack=A08
+   3. T_0000026087  bonafide_prob=0.8148  spoof_prob=0.1852  [high-confidence]
+      spec mean=0.1530 std=0.1993 min=0.0000 max=0.9725 freq_var=0.022927 time_var=0.035900
+      CSV check: label=spoof attack=A08
+   4. T_0000020516  bonafide_prob=0.9983  spoof_prob=0.0017  [high-confidence]
+      spec mean=0.2999 std=0.2149 min=0.0000 max=0.9608 freq_var=0.022788 time_var=0.041418
+      CSV check: label=spoof attack=A08
+   5. T_0000034988  bonafide_prob=0.6562  spoof_prob=0.3438  [high-confidence]
+      spec mean=0.2699 std=0.2011 min=0.0000 max=0.9686 freq_var=0.024054 time_var=0.036503
+      CSV check: label=spoof attack=A08
+   6. T_0000022339  bonafide_prob=0.5899  spoof_prob=0.4101  [borderline]
+      spec mean=0.3575 std=0.2250 min=0.0000 max=0.9725 freq_var=0.025231 time_var=0.047233
+      CSV check: label=spoof attack=A08
+
+TEST A08 FALSE NEGATIVES (4 samples)
+-----------------------------------------------------------------
+   1. T_0000022968  bonafide_prob=0.9112  spoof_prob=0.0888  [high-confidence]
+      spec mean=0.2412 std=0.2394 min=0.0000 max=0.9804 freq_var=0.016359 time_var=0.055743
+      CSV check: label=spoof attack=A08
+   2. T_0000032164  bonafide_prob=0.5357  spoof_prob=0.4643  [borderline]
+      spec mean=0.3175 std=0.2582 min=0.0000 max=0.9765 freq_var=0.027919 time_var=0.064360
+      CSV check: label=spoof attack=A08
+   3. T_0000028246  bonafide_prob=0.9966  spoof_prob=0.0034  [high-confidence]
+      spec mean=0.4639 std=0.1996 min=0.0000 max=0.9608 freq_var=0.021805 time_var=0.036632
+      CSV check: label=spoof attack=A08
+   4. T_0000022180  bonafide_prob=0.5297  spoof_prob=0.4703  [borderline]
+      spec mean=0.2931 std=0.2053 min=0.0000 max=0.9804 freq_var=0.023891 time_var=0.037960
+      CSV check: label=spoof attack=A08
+
+PROBABILITY COMPARISON: A08 FN vs A08 CORRECT (validation + test pooled)
+-----------------------------------------------------------------
+Misclassified (FN) (n=10):
+  bonafide_prob    mean=0.729275  std=0.175075  min=0.529750  max=0.998330
+  spoof_prob       mean=0.270725  std=0.175075  min=0.001670  max=0.470250
+  mean             mean=0.286895  std=0.080710  min=0.153047  max=0.463869
+  std              mean=0.221578  std=0.019556  min=0.199341  max=0.258179
+  min              mean=0.000000  std=0.000000  min=0.000000  max=0.000000
+  max              mean=0.972941  std=0.008310  min=0.960784  max=0.988235
+  freq_var         mean=0.022518  std=0.004611  min=0.012309  max=0.027919
+  time_var         mean=0.046296  std=0.009599  min=0.035900  max=0.064360
+
+Correctly detected (n=137):
+  bonafide_prob    mean=0.045572  std=0.095543  min=0.000000  max=0.458165
+  spoof_prob       mean=0.954428  std=0.095543  min=0.541835  max=1.000000
+  mean             mean=0.252367  std=0.051666  min=0.148212  max=0.433118
+  std              mean=0.217180  std=0.016472  min=0.174998  max=0.264336
+  min              mean=0.000029  std=0.000334  min=0.000000  max=0.003922
+  max              mean=0.980278  std=0.010584  min=0.941176  max=0.996078
+  freq_var         mean=0.025990  std=0.005494  min=0.013341  max=0.040187
+  time_var         mean=0.043366  std=0.007224  min=0.029471  max=0.063324
+
+Delta (FN - correct mean):
+  bonafide_prob    delta=+0.683703
+  spoof_prob       delta=-0.683703
+  mean             delta=+0.034528
+  std              delta=+0.004398
+  min              delta=-0.000029
+  max              delta=-0.007336
+  freq_var         delta=-0.003472
+  time_var         delta=+0.002930
+
+SPECTROGRAM STATISTICS ONLY (excluding probabilities)
+-----------------------------------------------------------------
+FN spectrograms (n=?):
+  mean             mean=0.286895  std=0.080710  min=0.153047  max=0.463869
+  std              mean=0.221578  std=0.019556  min=0.199341  max=0.258179
+  min              mean=0.000000  std=0.000000  min=0.000000  max=0.000000
+  max              mean=0.972941  std=0.008310  min=0.960784  max=0.988235
+  freq_var         mean=0.022518  std=0.004611  min=0.012309  max=0.027919
+  time_var         mean=0.046296  std=0.009599  min=0.035900  max=0.064360
+
+Correct A08 spectrograms (n=?):
+  mean             mean=0.252367  std=0.051666  min=0.148212  max=0.433118
+  std              mean=0.217180  std=0.016472  min=0.174998  max=0.264336
+  min              mean=0.000029  std=0.000334  min=0.000000  max=0.003922
+  max              mean=0.980278  std=0.010584  min=0.941176  max=0.996078
+  freq_var         mean=0.025990  std=0.005494  min=0.013341  max=0.040187
+  time_var         mean=0.043366  std=0.007224  min=0.029471  max=0.063324
+
+PER-SPLIT FN PROBABILITY SUMMARY
+-----------------------------------------------------------------
+  Validation FN (n=6):
+    bonafide_prob mean=0.7199 min=0.5899 max=0.9983
+    spoof_prob    mean=0.2801 min=0.0017 max=0.4101
+  Test FN (n=4):
+    bonafide_prob mean=0.7433 min=0.5297 max=0.9966
+    spoof_prob    mean=0.2567 min=0.0034 max=0.4703
+
+CONFIDENCE CLASSIFICATION (bonafide_prob threshold for FN)
+-----------------------------------------------------------------
+  Borderline FN (0.50 < bonafide_prob <= 0.6): 3 / 10
+  High-confidence FN (bonafide_prob > 0.6)     : 7 / 10
+    T_0000005517: bonafide_prob=0.6140 -> high-confidence
+    T_0000004220: bonafide_prob=0.6462 -> high-confidence
+    T_0000026087: bonafide_prob=0.8148 -> high-confidence
+    T_0000020516: bonafide_prob=0.9983 -> high-confidence
+    T_0000034988: bonafide_prob=0.6562 -> high-confidence
+    T_0000022339: bonafide_prob=0.5899 -> borderline
+    T_0000022968: bonafide_prob=0.9112 -> high-confidence
+    T_0000032164: bonafide_prob=0.5357 -> borderline
+    T_0000028246: bonafide_prob=0.9966 -> high-confidence
+    T_0000022180: bonafide_prob=0.5297 -> borderline
+
+COMMON PATTERN ANALYSIS
+-----------------------------------------------------------------
+  V2 test A08 FN overlap with V1 test A08 FN: 4 / 4
+    Shared IDs: T_0000022180, T_0000022968, T_0000028246, T_0000032164
+  V1 test FN samples now correctly detected by V2: 27 / 31
+
+  Spectrogram stat deltas (FN - correct) are small:
+    mean: +0.034528
+    std: +0.004398
+    min: -0.000029
+    max: -0.007336
+    freq_var: -0.003472
+    time_var: +0.002930
+  -> Notable deltas: mean
+
+  Primary separability is in model output confidence, not raw NPZ stats:
+    FN bonafide_prob mean=0.7293
+    Correct bonafide_prob mean=0.0456
+
+COMPARISON WITH V1 A08 FAILURE PATTERN (existing reports)
+-----------------------------------------------------------------
+  V1 test A08 FN count          : 31 (recall 55.71%)
+  V2 test A08 FN count          : 4 (recall 94.29%)
+  V2 combined A08 FN            : 10 (val 6 + test 4)
+  V1 FN bonafide_prob mean (test): 0.7531
+  V2 FN bonafide_prob mean (all) : 0.7293
+  V1 correct spoof_prob mean     : 0.8633
+  V2 correct spoof_prob mean     : 0.9544
+
+  V1 pattern (a08_failure_analysis.txt, a08_deep_analysis.txt):
+    - Failures differed mainly in model confidence, not spectrogram summaries.
+    - Many V1 FNs were high-confidence bonafide predictions.
+    - spec_freq_var was the only significant NPZ feature (small effect).
+  V2 pattern:
+    - Residual FN count reduced from 31 (V1 test) to 4 (V2 test).
+    - 7/10 remaining FNs are high-confidence errors.
+    - Spectrogram mean/std/min/max/freq_var/time_var remain largely overlapping.
+
+FINAL ANSWERS
+-----------------------------------------------------------------
+A. A08 failures remaining: validation=6, test=4, total=10
+
+B. Confidence type: MOSTLY HIGH-CONFIDENCE (7 high-confidence vs 3 borderline)
+
+C. Common pattern: WEAK pattern in mean only; no strong visual/statistical cluster.
+
+D. Need for another CNN architecture?
+   NO strong evidence yet. V2 reduced A08 FN from 31 to 4 on test (87% reduction).
+   Remaining 10 errors (6 val + 4 test) show confidence-driven failures with overlapping
+   spectrogram stats — likely hard examples, not a systematic architecture gap.
+   Further gains may come from hard-example training or ensemble/threshold policy,
+   not necessarily a new architecture. Only if errors persist after targeted training
+   would a deeper/temporal model be justified.
+
+Visualization: C:\Users\walia\Desktop\capstone\voiceguard-backend\models\v2_a08_failure_examples.png

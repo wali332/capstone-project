@@ -33,7 +33,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # ── Processing config ──────────────────────────────────────────────────────────
-SAMPLE_RATE  = 22050
+SAMPLE_RATE  = 16000
 DURATION     = 4.0
 N_MELS       = 128
 N_FFT        = 2048

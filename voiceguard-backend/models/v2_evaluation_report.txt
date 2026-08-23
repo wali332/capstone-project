@@ -1,0 +1,97 @@
+VoiceGuard CNN V2 - Test Set Evaluation Report
+============================================================
+Model    : C:\Users\walia\Desktop\capstone\voiceguard-backend\models\voiceguard_model_v2.h5
+Test data: C:\Users\walia\Desktop\capstone\voiceguard-backend\data\spectrograms\test.npz
+Scope    : test.npz ONLY (no validation or train data used)
+Samples  : 1140 (bonafide=570, spoof=570)
+
+OVERALL METRICS (positive class = spoof)
+------------------------------------------------------------
+Confusion Matrix (rows=true, cols=predicted)
+                    pred bonafide   pred spoof
+  true bonafide            540             30
+  true spoof                 4            566
+
+  Accuracy  : 0.9702 (97.02%)
+  Precision : 0.9497 (spoof)
+  Recall    : 0.9930 (spoof)
+  F1-score  : 0.9708 (spoof)
+
+Confusion Matrix Components
+  True Positives  (TP): 566
+  True Negatives  (TN): 540
+  False Positives (FP, bonafide->spoof): 30
+  False Negatives (FN, spoof->bonafide): 4
+
+Per-Class Metrics
+  Bonafide (0) - Precision: 0.9926, Recall: 0.9474, F1: 0.9695
+  Spoof    (1) - Precision: 0.9497, Recall: 0.9930, F1: 0.9708
+
+Misclassification Rates
+  Bonafide -> Spoof: 30/570 = 5.26%
+  Spoof -> Bonafide: 4/570 = 0.70%
+
+Classification Report
+              precision    recall  f1-score   support
+
+    bonafide       0.99      0.95      0.97       570
+       spoof       0.95      0.99      0.97       570
+
+    accuracy                           0.97      1140
+   macro avg       0.97      0.97      0.97      1140
+weighted avg       0.97      0.97      0.97      1140
+
+
+ATTACK-WISE SPOOF RECALL (test set)
+------------------------------------------------------------
+  A01: n= 68  correct= 68  FN=  0  recall=1.0000 (100.00%)  error_rate=0.0000 (0.00%)
+  A02: n= 70  correct= 70  FN=  0  recall=1.0000 (100.00%)  error_rate=0.0000 (0.00%)
+  A03: n= 73  correct= 73  FN=  0  recall=1.0000 (100.00%)  error_rate=0.0000 (0.00%)
+  A04: n= 74  correct= 74  FN=  0  recall=1.0000 (100.00%)  error_rate=0.0000 (0.00%)
+  A05: n= 80  correct= 80  FN=  0  recall=1.0000 (100.00%)  error_rate=0.0000 (0.00%)
+  A06: n= 65  correct= 65  FN=  0  recall=1.0000 (100.00%)  error_rate=0.0000 (0.00%)
+  A07: n= 70  correct= 70  FN=  0  recall=1.0000 (100.00%)  error_rate=0.0000 (0.00%)
+  A08: n= 70  correct= 66  FN=  4  recall=0.9429 (94.29%)  error_rate=0.0571 (5.71%)
+
+A08 Specific
+  A08 recall         : 0.9429 (94.29%)
+  A08 false negatives: 4 / 70
+  A08 error rate     : 5.71%
+
+Attack Summary
+  Best recall  : A01, A02, A03, A04, A05, A06, A07 (100.00%)
+  Worst recall : A08 (94.29%)
+  Total spoof FN: 4 / 570
+
+V1 vs V2 COMPARISON
+------------------------------------------------------------
+  Test accuracy       V1=95.96%  V2=97.02%  (delta=+1.06 pp)
+  Spoof recall        V1=93.16%  V2=99.30%  (delta=+6.14 pp)
+  A08 recall          V1=55.71%  V2=94.29%  (delta=+38.58 pp)
+  Bonafide->spoof     V1=7/570=1.23%  V2=30/570=5.26%
+  Spoof->bonafide     V1=39/570=6.84%  V2=4/570=0.70%
+  A08 FN count        V1=31  V2=4
+
+FINAL VERDICT
+------------------------------------------------------------
+V2 is a functioning classifier (not collapsed). Compared to V1:
+
+  Overall accuracy     : V2 wins  (97.02% vs 95.96%, +1.06 pp)
+  Total test errors    : V2 wins  (34 vs 46, 12 fewer misclassifications)
+  Spoof recall (FN)    : V2 wins  (99.30% vs 93.16%; 4 vs 39 spoof->bonafide)
+  A08 recall (FN)      : V2 wins  (94.29% vs 55.71%; 4 vs 31 A08 false negatives)
+  Bonafide recall (FP) : V1 wins  (98.77% vs 94.74%; 7 vs 30 bonafide->spoof)
+
+Error-profile trade-off:
+  V2 sharply reduces missed spoofs (especially A08) but accepts more bonafide
+  false alarms (5.26% vs 1.23%). This is NOT an improvement driven only by
+  A08 recall — overall accuracy and total errors also improve.
+
+Is V2 a genuine improvement over V1?
+  YES for overall test performance and spoof/A08 detection.
+  PARTIAL TRADE-OFF: bonafide false-positive rate is ~4.3x higher than V1.
+  For deployment, choose V2 if catching spoofs (incl. A08) is prioritized;
+  prefer V1 if minimizing bonafide false alarms is the primary constraint.
+
+Confusion matrix : C:\Users\walia\Desktop\capstone\voiceguard-backend\models\v2_confusion_matrix.png
+Attack plot      : C:\Users\walia\Desktop\capstone\voiceguard-backend\models\v2_attack_wise_evaluation.png

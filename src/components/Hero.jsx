@@ -32,7 +32,7 @@ export default function Hero() {
   return (
     <section className="relative w-full min-h-screen flex items-center pt-20 overflow-hidden bg-brand-base">
       {/* Background Radial Glow */}
-      <div className="absolute right-[20%] top-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-violet/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute right-[20%] top-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-accent/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="container mx-auto px-8 max-w-7xl relative z-10 flex flex-col lg:flex-row items-center justify-between gap-16">
         
@@ -45,14 +45,14 @@ export default function Hero() {
           viewport={{ once: true }}
         >
           {/* Pill */}
-          <motion.div variants={itemVariants} className="inline-flex items-center px-4 py-1.5 rounded-[20px] bg-brand-violet/20 mb-8">
-            <span className="font-sans text-[12px] text-brand-violet">BCA Capstone 2025 — Team T-1-12-47-49</span>
+          <motion.div variants={itemVariants} className="inline-flex items-center px-4 py-1.5 rounded-[20px] bg-brand-accent/20 mb-8">
+            <span className="font-sans text-[12px] text-brand-accent">BCA Capstone 2025 — Team T-1-12-47-49</span>
           </motion.div>
 
           {/* Heading */}
           <motion.h1 variants={itemVariants} className="font-sans font-bold text-[52px] text-white leading-[1.1] mb-6">
             Your ears can't catch it.<br />
-            <span className="text-brand-violet">We can.</span>
+            <span className="text-brand-accent">We can.</span>
           </motion.h1>
 
           {/* Subtext */}
@@ -62,7 +62,7 @@ export default function Hero() {
 
           {/* Buttons */}
           <motion.div variants={itemVariants} className="flex items-center gap-4 mb-14">
-            <button className="bg-brand-violet text-white font-medium text-[14px] px-6 py-3 rounded-[6px] hover:bg-brand-violet/90 transition-colors flex items-center gap-2">
+            <button className="bg-brand-accent text-white font-medium text-[14px] px-6 py-3 rounded-[6px] hover:bg-brand-accent/90 transition-colors flex items-center gap-2">
               Analyze audio <span className="text-lg leading-none">→</span>
             </button>
             <button className="border border-brand-border text-white font-medium text-[14px] px-6 py-3 rounded-[6px] hover:bg-brand-border transition-colors">
@@ -95,7 +95,7 @@ export default function Hero() {
               <div className="flex items-center gap-3">
                 <div className="flex items-end gap-1 h-3">
                   {[1,2,3,4].map(i => (
-                    <motion.div key={i} animate={{ height: [4, Math.random() * 12 + 4, 4] }} transition={{ repeat: Infinity, duration: 0.8 + i*0.1 }} className="w-1 bg-brand-violet rounded-full" />
+                    <motion.div key={i} animate={{ height: [4, Math.random() * 12 + 4, 4] }} transition={{ repeat: Infinity, duration: 0.8 + i*0.1 }} className="w-1 bg-brand-accent rounded-full" />
                   ))}
                 </div>
                 <AnimatePresence mode="wait">
@@ -122,7 +122,7 @@ export default function Hero() {
                </div>
                
                <motion.div 
-                className="absolute top-0 bottom-0 left-0 w-32 bg-gradient-to-r from-transparent via-brand-violet/20 to-brand-violet/80 border-r border-brand-violet"
+                className="absolute top-0 bottom-0 left-0 w-32 bg-gradient-to-r from-transparent via-brand-accent/20 to-brand-accent/80 border-r border-brand-accent"
                 animate={{ x: ["-10%", "400%"] }}
                 transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
                />
@@ -139,7 +139,7 @@ export default function Hero() {
                   transition={{ duration: 0.3 }}
                   className="flex items-center gap-3 w-full"
                  >
-                   <div className={`w-3 h-3 rounded-full ${currentDemo.isFake ? 'bg-brand-danger shadow-[0_0_8px_#FF4D6D]' : 'bg-brand-mint shadow-[0_0_8px_#00E5A0]'}`} />
+                   <div className={`w-3 h-3 rounded-full ${currentDemo.isFake ? 'bg-brand-danger shadow-[0_0_8px_#FB7185]' : 'bg-brand-mint shadow-[0_0_8px_#34D399]'}`} />
                    <span className={`font-mono text-[20px] font-bold ${currentDemo.isFake ? 'text-brand-danger' : 'text-brand-mint'}`}>
                      {currentDemo.verdict}
                    </span>

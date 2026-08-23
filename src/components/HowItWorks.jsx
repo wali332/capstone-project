@@ -6,7 +6,7 @@ export default function HowItWorks() {
       title: "Upload audio",
       desc: "Accepts recorded .wav, .mp3, or .flac files. Signal is normalized and enhanced for optimal quality before processing.",
       icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-brand-violet">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-brand-accent">
           <path d="M12 16V4M12 4L8 8M12 4L16 8M4 20H20" />
         </svg>
       )
@@ -15,7 +15,7 @@ export default function HowItWorks() {
       title: "Spectrogram extracted",
       desc: "Audio is transformed into a 2D time-frequency visual using mel filterbanks. AI voices leave distinct spectral artifacts invisible to human ears.",
       icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6 text-brand-violet">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6 text-brand-accent">
           <rect x="3" y="3" width="18" height="18" rx="2" />
           <path d="M3 9H21M3 15H21M9 3V21M15 3V21" />
         </svg>
@@ -25,7 +25,7 @@ export default function HowItWorks() {
       title: "Deep learning analysis",
       desc: "A trained Convolutional Neural Network reads spectral patterns and classifies speech as human or AI with a quantifiable confidence score.",
       icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6 text-brand-violet">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6 text-brand-accent">
           <rect x="4" y="4" width="6" height="16" rx="1" />
           <rect x="14" y="6" width="6" height="12" rx="1" />
           <path d="M10 12h4" strokeDasharray="2 2" />
@@ -47,7 +47,7 @@ export default function HowItWorks() {
           <h2 className="font-sans text-[32px] font-bold text-white mb-4 relative inline-block">
             How VoiceGuard works
             <motion.div 
-              className="absolute -bottom-2 left-0 h-[2px] bg-brand-violet"
+              className="absolute -bottom-2 left-0 h-[2px] bg-brand-accent"
               initial={{ width: 0 }}
               whileInView={{ width: "100%" }}
               viewport={{ once: true }}
@@ -71,7 +71,7 @@ export default function HowItWorks() {
               transition={{ duration: 0.5, delay: idx * 0.15 }}
             >
               {/* Icon Container */}
-              <div className="w-12 h-12 rounded-full bg-brand-base border border-brand-border flex items-center justify-center mb-6 shadow-[0_0_12px_#6C63FF15]">
+              <div className="w-12 h-12 rounded-full bg-brand-base border border-brand-border flex items-center justify-center mb-6 shadow-[0_0_12px_#22D3EE15]">
                 {step.icon}
               </div>
               <h3 className="font-sans font-semibold text-white text-[16px] mb-2">{step.title}</h3>
@@ -94,7 +94,7 @@ export default function HowItWorks() {
              
              {/* Animated Signal Dot */}
              <motion.div 
-               className="hidden md:block absolute top-1/2 left-8 w-2 h-2 rounded-full bg-brand-violet shadow-[0_0_8px_#6C63FF] -translate-y-1/2 z-0"
+               className="hidden md:block absolute top-1/2 left-8 w-2 h-2 rounded-full bg-brand-accent shadow-[0_0_8px_#22D3EE] -translate-y-1/2 z-0"
                animate={{ left: ["2%", "98%"] }}
                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
              />

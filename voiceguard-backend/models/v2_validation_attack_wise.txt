@@ -1,0 +1,82 @@
+VoiceGuard CNN V2 - Validation Attack-Wise Analysis
+=======================================================
+Model     : C:\Users\walia\Desktop\capstone\voiceguard-backend\models\voiceguard_model_v2.h5
+Val NPZ   : C:\Users\walia\Desktop\capstone\voiceguard-backend\data\spectrograms\validation.npz
+Val CSV   : C:\Users\walia\Desktop\capstone\voiceguard-backend\data\splits\validation.csv
+Scope     : spoof samples only (y=1), validation.npz ONLY
+
+Per-Attack Results
+-------------------------------------------------------
+A01:
+  Total samples              : 75
+  Correctly detected spoofs  : 72
+  False negatives            : 3
+  Spoof recall               : 0.9600 (96.00%)
+  Error rate                 : 0.0400 (4.00%)
+  V1 validation recall (ref) : 92.00% (FN=6)
+
+A02:
+  Total samples              : 74
+  Correctly detected spoofs  : 74
+  False negatives            : 0
+  Spoof recall               : 1.0000 (100.00%)
+  Error rate                 : 0.0000 (0.00%)
+  V1 validation recall (ref) : 98.65% (FN=1)
+
+A03:
+  Total samples              : 76
+  Correctly detected spoofs  : 76
+  False negatives            : 0
+  Spoof recall               : 1.0000 (100.00%)
+  Error rate                 : 0.0000 (0.00%)
+  V1 validation recall (ref) : 98.68% (FN=1)
+
+A04:
+  Total samples              : 79
+  Correctly detected spoofs  : 79
+  False negatives            : 0
+  Spoof recall               : 1.0000 (100.00%)
+  Error rate                 : 0.0000 (0.00%)
+  V1 validation recall (ref) : 100.00% (FN=0)
+
+A05:
+  Total samples              : 56
+  Correctly detected spoofs  : 56
+  False negatives            : 0
+  Spoof recall               : 1.0000 (100.00%)
+  Error rate                 : 0.0000 (0.00%)
+  V1 validation recall (ref) : 100.00% (FN=0)
+
+A06:
+  Total samples              : 66
+  Correctly detected spoofs  : 66
+  False negatives            : 0
+  Spoof recall               : 1.0000 (100.00%)
+  Error rate                 : 0.0000 (0.00%)
+  V1 validation recall (ref) : 100.00% (FN=0)
+
+A07:
+  Total samples              : 67
+  Correctly detected spoofs  : 67
+  False negatives            : 0
+  Spoof recall               : 1.0000 (100.00%)
+  Error rate                 : 0.0000 (0.00%)
+  V1 validation recall (ref) : 100.00% (FN=0)
+
+A08:
+  Total samples              : 77
+  Correctly detected spoofs  : 71
+  False negatives            : 6
+  Spoof recall               : 0.9221 (92.21%)
+  Error rate                 : 0.0779 (7.79%)
+  V1 validation recall (ref) : 62.34% (FN=29)
+
+Key Findings
+-------------------------------------------------------
+1. Weakest attack            : A08 (92.21%)
+2. Most false negatives      : A08 (6 errors)
+3. Best recall attacks       : A02, A03, A04, A05, A06, A07 (100.00%)
+4. Total spoof false negatives: 9 / 570 (1.58%)
+5. V1 validation spoof FN (ref): 37 / 570 (6.49%)
+
+Chart saved to: C:\Users\walia\Desktop\capstone\voiceguard-backend\models\v2_validation_attack_wise.png
