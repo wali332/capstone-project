@@ -1,0 +1,39 @@
+============================================================
+VoiceGuard V3 — read-only evaluation
+Model: C:\Users\walia\Desktop\capstone\voiceguard-backend\models\voiceguard_model_v3_best.h5
+============================================================
+
+=== V3 test.npz ===
+Samples         : 1140
+Accuracy        : 95.79%
+Precision       : 94.54%  (spoof=positive)
+Spoof recall    : 97.19%
+F1              : 95.85%
+Confusion matrix: rows=actual [bonafide, spoof], cols=pred [bonafide, spoof]
+                  [[538, 32], [16, 554]]
+
+=== CD-ADD OpenVoice / LibriTTS ===
+Samples evaluated : 100
+Baseline CSV      : C:\Users\walia\Desktop\capstone\voiceguard-backend\output\cdadd_v2_openvoice_baseline.csv
+Output CSV        : C:\Users\walia\Desktop\capstone\voiceguard-backend\output\cdadd_v3_openvoice.csv
+Accuracy          : 89.00%
+Spoof recall      : 100.00%
+Bonafide recall   : 78.00%
+False positive    : 22.00%
+False negative    : 0.00%
+Confusion matrix  : rows=actual [bonafide, spoof], cols=pred [bonafide, spoof]
+                  [[39, 11], [0, 50]]
+                  TP=50 TN=39 FP=11 FN=0
+
+=== CD-ADD VALL-E / LibriTTS ===
+Samples evaluated : 100
+Baseline CSV      : C:\Users\walia\Desktop\capstone\voiceguard-backend\output\cdadd_v2_valle_baseline.csv
+Output CSV        : C:\Users\walia\Desktop\capstone\voiceguard-backend\output\cdadd_v3_valle.csv
+Accuracy          : 74.00%
+Spoof recall      : 70.00%
+Bonafide recall   : 78.00%
+False positive    : 22.00%
+False negative    : 30.00%
+Confusion matrix  : rows=actual [bonafide, spoof], cols=pred [bonafide, spoof]
+                  [[39, 11], [15, 35]]
+                  TP=35 TN=39 FP=11 FN=15

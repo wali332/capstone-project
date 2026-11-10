@@ -27,7 +27,7 @@ from audio_pipeline import process_audio, load_audio, SAMPLE_RATE, DURATION
 
 # ── Config ─────────────────────────────────────────────────────────────────────
 BASE_DIR   = Path(__file__).resolve().parent
-MODEL_PATH = BASE_DIR / "models" / "voiceguard_model_v2.h5"
+MODEL_PATH = BASE_DIR / "models" / "voiceguard_model_v3_best.h5"
 
 ALLOWED_EXTENSIONS = {".wav", ".mp3", ".flac"}
 ALLOWED_TYPES = {

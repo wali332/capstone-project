@@ -102,3 +102,20 @@ export function validateAudioFile(file) {
 
   return { valid: true };
 }
+
+/**
+ * User-facing message for upload failures (network vs API errors).
+ * @param {Error} error
+ * @returns {string}
+ */
+export function getUploadErrorMessage(error) {
+  const msg = error?.message || String(error);
+  if (
+    msg === 'Failed to fetch' ||
+    msg.toLowerCase().includes('fetch failed') ||
+    msg === 'NetworkError when attempting to fetch resource.'
+  ) {
+    return 'Backend API is not running';
+  }
+  return msg;
+}

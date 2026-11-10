@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from 'framer-motion';
-import { uploadAudio, validateAudioFile, formatFileSize, checkHealth } from '../api/api';
+import { uploadAudio, validateAudioFile, formatFileSize, checkHealth, getUploadErrorMessage } from '../api/api';
 
 const TERMINAL_LINES = [
   "> received audio file...",
@@ -50,14 +50,13 @@ export default function LiveDemo() {
     if (state === 'ANALYZING') {
       let currentLine = 0;
       setLogLines([]);
-      
+
       const intervalId = setInterval(() => {
         if (currentLine < TERMINAL_LINES.length) {
-           setLogLines(prev => [...prev, TERMINAL_LINES[currentLine]]);
-           currentLine++;
+          setLogLines(prev => [...prev, TERMINAL_LINES[currentLine]]);
+          currentLine++;
         } else {
           clearInterval(intervalId);
-          setTimeout(() => setState('RESULTS'), 600);
         }
       }, 300);
 
@@ -145,14 +144,9 @@ export default function LiveDemo() {
         spectrogram: result.spectrogram_b64
       });
 
-      // Wait for terminal animation to finish, then show results
-      setTimeout(() => setState('RESULTS'), 2000);
+      setState('RESULTS');
     } catch (err) {
-      setError(
-        err.message === 'Failed to fetch'
-          ? 'Backend API is not running. Please start the backend server at http://localhost:8000'
-          : err.message
-      );
+      setError(getUploadErrorMessage(err));
       setState('IDLE');
       setFileStats({
         name: '',
@@ -380,10 +374,15 @@ export default function LiveDemo() {
           {/* RIGHT PANEL */}
           <div className="w-[60%] h-full relative overflow-hidden bg-brand-surface flex flex-col">
             
-            {/* IDLE: Faint Watermark */}
+            {/* IDLE: Empty analysis panel */}
             {state === 'IDLE' && (
-              <div className="absolute inset-0 flex items-center justify-center opacity-5 select-none pointer-events-none mix-blend-screen">
-                <img src="/spectrogram.png" alt="" className="w-full h-full object-cover blur-[1px] grayscale" />
+              <div className="absolute inset-0 flex flex-col justify-center items-center select-none pointer-events-none">
+                <div className="absolute inset-0 flex flex-col justify-around py-4 opacity-40">
+                  {[...Array(8)].map((_, i) => (
+                    <div key={i} className="w-full h-px bg-white/5" />
+                  ))}
+                </div>
+                <span className="relative font-mono text-[11px] text-gray-600">awaiting audio input</span>
               </div>
             )}
 
@@ -408,11 +407,13 @@ export default function LiveDemo() {
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}
               >
                 <div className="flex-1 min-h-0 relative">
-                  <img 
-                    src={fileStats.spectrogram || "/spectrogram.png"} 
-                    alt="Mel Spectrogram" 
-                    className="w-full h-full object-cover grayscale brightness-125 contrast-[1.2] opacity-80"
-                  />
+                  {fileStats.spectrogram && (
+                    <img
+                      src={fileStats.spectrogram}
+                      alt="Mel Spectrogram"
+                      className="w-full h-full object-cover grayscale brightness-125 contrast-[1.2] opacity-80"
+                    />
+                  )}
                   <motion.div 
                     initial={{ left: 0 }} animate={{ left: "100%" }} transition={{ duration: 1.2, ease: "easeInOut" }}
                     className="absolute inset-0 bg-brand-surface"

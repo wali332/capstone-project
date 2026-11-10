@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VoiceGuard</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="header">
+      <img class="logo" src="icons/icon48.png" width="32" height="32" alt="" />
+      <div class="brand">
+        <h1 class="brand-name">VoiceGuard</h1>
+        <p class="brand-tagline">AI speech detection</p>
+      </div>
+      <span class="status-dot" id="statusDot" aria-hidden="true"></span>
+    </header>
+
+    <section class="panel" aria-labelledby="statusHeading">
+      <h2 id="statusHeading" class="label">Status</h2>
+      <p class="status-value" id="statusValue">Ready</p>
+      <p class="status-hint" id="statusHint">
+        Extension loaded. Detection has not started.
+      </p>
+    </section>
+
+    <section class="actions">
+      <button type="button" class="btn btn-primary" id="startBtn">
+        Start Detection
+      </button>
+      <button type="button" class="btn btn-secondary" id="stopBtn" disabled>
+        Stop Detection
+      </button>
+    </section>
+
+    <section class="panel" aria-labelledby="resultHeading">
+      <h2 id="resultHeading" class="label">Detection Result</h2>
+      <p class="result-value" id="resultValue">Waiting for audio...</p>
+    </section>
+
+    <section class="panel panel-compact" aria-labelledby="confidenceHeading">
+      <h2 id="confidenceHeading" class="label">Confidence</h2>
+      <p class="confidence-value" id="confidenceValue">--</p>
+    </section>
+
+    <section class="panel panel-compact" aria-labelledby="captureHeading">
+      <h2 id="captureHeading" class="label">Tab Audio (test)</h2>
+      <p class="capture-status" id="captureStatus">Not capturing</p>
+      <div class="level-meter" role="meter" aria-label="Tab audio level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="level-meter-fill" id="levelMeterFill"></div>
+      </div>
+      <p class="level-value" id="levelValue">Level: --</p>
+    </section>
+
+    <footer class="footer">
+      <p>Phase 5 — tab audio → WAV → /analyze. One segment per start.</p>
+    </footer>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

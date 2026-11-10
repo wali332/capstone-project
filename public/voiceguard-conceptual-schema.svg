@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 780" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#222"/>
+    </marker>
+    <marker id="arrow-dash" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#555"/>
+    </marker>
+  </defs>
+
+  <!-- Title block (Rule: every diagram must have a title) -->
+  <text x="550" y="34" text-anchor="middle" font-size="20" font-weight="bold">Figure 1: VoiceGuard  Conceptual Schema Diagram</text>
+  <text x="550" y="54" text-anchor="middle" font-size="12" fill="#444">Deepfake Audio Detection System (Runtime + Offline Training)</text>
+
+  <!-- Legend (Rule: define symbols used) -->
+  <rect x="24" y="68" width="300" height="118" fill="#fafafa" stroke="#333" stroke-width="1"/>
+  <text x="36" y="88" font-size="13" font-weight="bold">Notation Key</text>
+  <rect x="44" y="98" width="52" height="28" fill="#fff" stroke="#222"/>
+  <text x="104" y="116" font-size="11">External Entity</text>
+  <rect x="44" y="132" width="52" height="28" rx="14" fill="#fff" stroke="#222"/>
+  <text x="104" y="150" font-size="11">Process</text>
+  <path d="M44 174 h52" stroke="#222" stroke-width="2"/>
+  <path d="M44 168 v12 M96 168 v12" stroke="#222" stroke-width="2"/>
+  <text x="104" y="182" font-size="11">Data Store</text>
+  <line x1="190" y1="110" x2="230" y2="110" stroke="#222" marker-end="url(#arrow)"/>
+  <text x="238" y="114" font-size="11">Data Flow</text>
+  <line x1="190" y1="148" x2="230" y2="148" stroke="#555" stroke-dasharray="5 4" marker-end="url(#arrow-dash)"/>
+  <text x="238" y="152" font-size="11">Deploy / Offline</text>
+
+  <!-- External Entity: User -->
+  <rect x="40" y="320" width="100" height="56" fill="#e8f4fc" stroke="#1565a0" stroke-width="2"/>
+  <text x="90" y="344" text-anchor="middle" font-size="12" font-weight="bold">User</text>
+  <text x="90" y="362" text-anchor="middle" font-size="10">(External Entity)</text>
+
+  <!-- SYSTEM BOUNDARY (Rule: draw boundary around system) -->
+  <rect x="170" y="210" width="900" height="520" fill="none" stroke="#111" stroke-width="2.5" stroke-dasharray="10 4"/>
+  <text x="620" y="232" text-anchor="middle" font-size="14" font-weight="bold">VOICEGUARD SYSTEM BOUNDARY</text>
+
+  <!-- Subsystem: Presentation Layer -->
+  <rect x="190" y="250" width="860" height="120" fill="#f5f9ff" stroke="#1565a0" stroke-width="1.5"/>
+  <text x="210" y="272" font-size="12" font-weight="bold">Layer 1  Presentation (Frontend � React � port 5173)</text>
+
+  <rect x="220" y="288" width="130" height="56" rx="28" fill="#fff" stroke="#222" stroke-width="1.5"/>
+  <text x="285" y="312" text-anchor="middle" font-size="11" font-weight="bold">P1</text>
+  <text x="285" y="328" text-anchor="middle" font-size="10">Upload &amp; Display</text>
+  <text x="285" y="340" text-anchor="middle" font-size="9">LiveDemo.jsx</text>
+
+  <rect x="400" y="288" width="130" height="56" rx="28" fill="#fff" stroke="#222" stroke-width="1.5"/>
+  <text x="465" y="312" text-anchor="middle" font-size="11" font-weight="bold">P2</text>
+  <text x="465" y="328" text-anchor="middle" font-size="10">Validate File</text>
+  <text x="465" y="340" text-anchor="middle" font-size="9">api.js</text>
+
+  <rect x="580" y="288" width="130" height="56" rx="28" fill="#fff" stroke="#222" stroke-width="1.5"/>
+  <text x="645" y="312" text-anchor="middle" font-size="11" font-weight="bold">P3</text>
+  <text x="645" y="328" text-anchor="middle" font-size="10">Show Results</text>
+  <text x="645" y="340" text-anchor="middle" font-size="9">Verdict + Spectrogram</text>
+
+  <!-- Subsystem: Application Layer -->
+  <rect x="190" y="390" width="860" height="120" fill="#f4fff6" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="210" y="412" font-size="12" font-weight="bold">Layer 2  Application (Backend API � FastAPI � port 8000)</text>
+
+  <rect x="260" y="428" width="130" height="56" rx="28" fill="#fff" stroke="#222" stroke-width="1.5"/>
+  <text x="325" y="452" text-anchor="middle" font-size="11" font-weight="bold">P4</text>
+  <text x="325" y="468" text-anchor="middle" font-size="10">Receive Request</text>
+  <text x="325" y="480" text-anchor="middle" font-size="9">app.py</text>
+
+  <rect x="460" y="428" width="150" height="56" rx="28" fill="#fff" stroke="#222" stroke-width="1.5"/>
+  <text x="535" y="452" text-anchor="middle" font-size="11" font-weight="bold">P5</text>
+  <text x="535" y="468" text-anchor="middle" font-size="10">Audio Processing</text>
+  <text x="535" y="480" text-anchor="middle" font-size="9">audio_pipeline.py</text>
+
+  <rect x="680" y="428" width="130" height="56" rx="28" fill="#fff" stroke="#222" stroke-width="1.5"/>
+  <text x="745" y="452" text-anchor="middle" font-size="11" font-weight="bold">P6</text>
+  <text x="745" y="468" text-anchor="middle" font-size="10">CNN Inference</text>
+  <text x="745" y="480" text-anchor="middle" font-size="9">TensorFlow</text>
+
+  <!-- Subsystem: Data / Model Layer -->
+  <rect x="190" y="530" width="560" height="110" fill="#fff8f0" stroke="#e65100" stroke-width="1.5"/>
+  <text x="210" y="552" font-size="12" font-weight="bold">Layer 3  Data &amp; Model</text>
+
+  <!-- Data Store symbols -->
+  <g transform="translate(240,568)">
+    <line x1="0" y1="0" x2="140" y2="0" stroke="#222" stroke-width="2"/>
+    <line x1="0" y1="48" x2="140" y2="48" stroke="#222" stroke-width="2"/>
+    <line x1="0" y1="0" x2="0" y2="48" stroke="#222" stroke-width="2"/>
+    <text x="70" y="20" text-anchor="middle" font-size="10" font-weight="bold">D1</text>
+    <text x="70" y="34" text-anchor="middle" font-size="9">Trained Model</text>
+    <text x="70" y="46" text-anchor="middle" font-size="8">v3_best.h5</text>
+  </g>
+
+  <g transform="translate(430,568)">
+    <line x1="0" y1="0" x2="140" y2="0" stroke="#222" stroke-width="2"/>
+    <line x1="0" y1="48" x2="140" y2="48" stroke="#222" stroke-width="2"/>
+    <line x1="0" y1="0" x2="0" y2="48" stroke="#222" stroke-width="2"/>
+    <text x="70" y="20" text-anchor="middle" font-size="10" font-weight="bold">D2</text>
+    <text x="70" y="34" text-anchor="middle" font-size="9">Spectrogram</text>
+    <text x="70" y="46" text-anchor="middle" font-size="8">128�128 array</text>
+  </g>
+
+  <!-- OFFLINE TRAINING SUBSYSTEM (separate bounded region) -->
+  <rect x="770" y="390" width="280" height="250" fill="#fafafa" stroke="#555" stroke-width="1.5" stroke-dasharray="6 3"/>
+  <text x="910" y="412" text-anchor="middle" font-size="12" font-weight="bold">Offline Training Pipeline</text>
+  <text x="910" y="428" text-anchor="middle" font-size="10" fill="#555">(executed before deployment)</text>
+
+  <rect x="800" y="444" width="220" height="40" rx="20" fill="#fff" stroke="#222"/>
+  <text x="910" y="468" text-anchor="middle" font-size="10">P7: Build Dataset (7,600 samples)</text>
+
+  <rect x="800" y="496" width="220" height="40" rx="20" fill="#fff" stroke="#222"/>
+  <text x="910" y="520" text-anchor="middle" font-size="10">P8: Preprocess � NPZ (preprocess_v3)</text>
+
+  <rect x="800" y="548" width="220" height="40" rx="20" fill="#fff" stroke="#222"/>
+  <text x="910" y="572" text-anchor="middle" font-size="10">P9: Train CNN (train_v3.py)</text>
+
+  <rect x="800" y="600" width="220" height="40" rx="20" fill="#fff" stroke="#222"/>
+  <text x="910" y="624" text-anchor="middle" font-size="10">P10: Evaluate (95.79% accuracy)</text>
+
+  <!-- RUNTIME DATA FLOWS (labeled arrows - Rule: label every flow) -->
+  <line x1="140" y1="348" x2="218" y2="316" stroke="#222" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="148" y="328" font-size="10">Audio file</text>
+
+  <line x1="350" y1="316" x2="398" y2="316" stroke="#222" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="355" y="308" font-size="9">Validated file</text>
+
+  <line x1="530" y1="316" x2="578" y2="316" stroke="#222" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="535" y="308" font-size="9">HTTP POST</text>
+
+  <line x1="645" y1="344" x2="645" y2="418" stroke="#222" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="652" y="382" font-size="9">FormData</text>
+
+  <line x1="535" y1="456" x2="458" y2="456" stroke="#222" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="470" y="448" font-size="9">Raw bytes</text>
+
+  <line x1="610" y1="456" x2="678" y2="456" stroke="#222" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="620" y="448" font-size="9">Mel spec 128�128</text>
+
+  <line x1="745" y1="484" x2="745" y2="566" stroke="#222" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="752" y="528" font-size="9">Tensor input</text>
+
+  <line x1="680" y1="592" x2="570" y2="592" stroke="#222" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="590" y="584" font-size="9">Read model</text>
+
+  <line x1="535" y1="592" x2="430" y2="592" stroke="#222" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <line x1="325" y1="484" x2="140" y2="360" stroke="#222" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="180" y="410" font-size="10">JSON: verdict,</text>
+  <text x="180" y="422" font-size="10">confidence, spectrogram</text>
+
+  <!-- OFFLINE flows -->
+  <line x1="910" y1="484" x2="910" y2="494" stroke="#555" stroke-width="1.2" marker-end="url(#arrow-dash)"/>
+  <line x1="910" y1="536" x2="910" y2="546" stroke="#555" stroke-width="1.2" marker-end="url(#arrow-dash)"/>
+  <line x1="910" y1="588" x2="910" y2="598" stroke="#555" stroke-width="1.2" marker-end="url(#arrow-dash)"/>
+  <line x1="800" y1="620" x2="380" y2="592" stroke="#555" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrow-dash)"/>
+  <text x="520" y="638" font-size="10" fill="#555">Deploy trained weights � D1</text>
+
+  <!-- Footnote -->
+  <text x="550" y="758" text-anchor="middle" font-size="10" fill="#555">
+    Source: VoiceGuard Capstone � Conforms to layered architecture + DFD notation (External Entity, Process, Data Store, labeled Data Flow)
+  </text>
+</svg>
